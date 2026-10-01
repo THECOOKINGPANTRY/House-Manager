@@ -1961,3 +1961,54 @@ p {
     border-radius: 26px;
   }
 }
+
+/* =========================
+   BUTTON INTERACTIONS
+========================= */
+
+.button {
+  transition:
+    transform .14s ease,
+    background .14s ease,
+    border-color .14s ease,
+    opacity .14s ease,
+    box-shadow .14s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.button:focus-visible {
+  outline: 3px solid rgba(245, 203, 92, .45);
+  outline-offset: 2px;
+}
+
+.primary:hover {
+  background: #f2c24c;
+  box-shadow: 0 6px 16px rgba(36, 36, 35, .10);
+}
+
+.secondary:hover {
+  background: #c6d3cd;
+}
+
+.outline:hover {
+  background: rgba(36, 36, 35, .05);
+  border-color: rgba(36, 36, 35, .18);
+}
+
+.danger:hover {
+  background: rgba(169, 75, 67, .16);
+}
+
+.button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
