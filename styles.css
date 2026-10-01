@@ -100,9 +100,10 @@ a {
   flex: none;
 }
 
-.brand-mark svg {
-  width: 28px;
-  height: 28px;
+.brand-mark img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
   display: block;
 }
 
