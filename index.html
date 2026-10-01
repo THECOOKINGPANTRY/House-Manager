@@ -1,193 +1,1543 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home Manager</title>
-  <link rel="stylesheet" href="styles.css">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>Home · Home Manager</title>
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
 </head>
 
 <body>
-  <script>
 
-  if (
-    localStorage.getItem(
-      "home-manager-logged-in"
-    ) !== "true"
-  ) {
-    location.replace("login.html");
-  }
-
-</script>
   <div class="app-shell">
+
     <div class="phone">
 
-      <div class="topbar">
+      <!-- HEADER -->
+      <header class="topbar">
+
         <div class="topbar-row">
 
-          <a class="brand" href="index.html">
+          <a
+            class="brand"
+            href="index.html"
+          >
+
             <div class="brand-mark">
-  <img src="House_Manager_Logo.png" alt="Home Manager logo">
-</div>
+
+              <img
+                src="House_Manager_Logo.png"
+                alt="Home Manager logo"
+              >
+
+            </div>
 
             <div>
-              <div class="brand-name">HOME MANAGER</div>
-              <div class="brand-sub" id="houseNameHeader">My Household</div>
+
+              <div class="brand-name">
+                HOME MANAGER
+              </div>
+
+              <div
+                class="brand-sub"
+                id="houseNameHeader"
+              >
+                My Household
+              </div>
+
             </div>
+
           </a>
 
-          <button class="header-action" onclick="location.href='settings.html'">
+
+          <button
+            class="header-action"
+            type="button"
+            onclick="location.href='settings.html'"
+            aria-label="Settings"
+          >
             ⚙
           </button>
 
         </div>
-      </div>
 
-      <div class="scroll">
+      </header>
 
-        <div class="kicker">Welcome home</div>
 
-        <h1 id="homeTitle">My Household</h1>
+      <!-- SCROLLABLE CONTENT -->
+      <main class="scroll">
 
-        <p>Everything your household needs, together.</p>
+        <!-- GREETING -->
+        <section class="home-intro">
 
-        <div class="hero">
-
-          <div class="hero-pill">
-            ● Shared household
+          <div class="kicker">
+            <span id="greetingTime">
+              Welcome
+            </span>
           </div>
 
-          <h2 id="heroHouse">My Household</h2>
+          <h1 id="greetingName">
+            Your household
+          </h1>
 
-          <p>
-            Keep tasks, shopping, plans and household information in one place.
+          <p id="introText">
+            Here's what is happening around home.
           </p>
 
-        </div>
+        </section>
 
-        <div class="kicker" style="margin-top:20px">
-          Overview
-        </div>
 
-        <div class="grid">
+        <!-- NEEDS ATTENTION -->
+        <section
+          id="attentionSection"
+          class="home-section hidden"
+        >
 
-          <a class="card click" href="tasks.html">
-            <div class="iconbox">✓</div>
-            <div class="metric" id="taskMetric">Tasks</div>
-            <div class="submetric" id="taskSub">Nothing added yet</div>
-          </a>
+          <div class="section-heading-row">
 
-          <a class="card click" href="shopping.html">
-            <div class="iconbox">🛒</div>
-            <div class="metric">Shopping</div>
-            <div class="submetric" id="shopSub">Nothing added yet</div>
-          </a>
+            <div>
 
-          <a class="card click" href="calendar.html">
-            <div class="iconbox">▦</div>
-            <div class="metric">Calendar</div>
-            <div class="submetric" id="eventSub">Nothing planned yet</div>
-          </a>
+              <div class="kicker">
+                Needs attention
+              </div>
 
-          <a class="card click" href="money.html">
-            <div class="iconbox">$</div>
-            <div class="metric">Money</div>
-            <div class="submetric" id="moneySub">Nothing added yet</div>
-          </a>
+              <h2>
+                Take care of these first
+              </h2>
 
-        </div>
+            </div>
 
-        <div class="section">
-          <div class="section-title">Household members</div>
-          <div id="memberPreview"></div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">Recent activity</div>
-          <div id="activity">
-            Your household activity will appear here as people add and complete things.
           </div>
-        </div>
 
-      </div>
+          <div
+            id="attentionList"
+            class="attention-list"
+          ></div>
 
-      <div class="bottom">
+        </section>
 
-        <button class="fab" onclick="openAdd()">+</button>
 
-        <a class="nav active" href="index.html">
-          <span class="nav-icon">⌂</span>
+        <!-- ALL CLEAR -->
+        <section
+          id="allClearSection"
+          class="home-clear"
+        >
+
+          <div class="clear-icon">
+            ✓
+          </div>
+
+          <div>
+
+            <div class="clear-title">
+              You're all caught up
+            </div>
+
+            <div class="clear-copy">
+              Nothing in your household needs immediate attention.
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- TODAY -->
+        <section class="home-section">
+
+          <div class="section-heading-row">
+
+            <div>
+
+              <div class="kicker">
+                Today
+              </div>
+
+              <h2>
+                What's happening
+              </h2>
+
+            </div>
+
+            <a
+              class="section-link"
+              href="calendar.html"
+            >
+              Calendar
+            </a>
+
+          </div>
+
+
+          <div
+            id="todayContent"
+            class="today-list"
+          ></div>
+
+        </section>
+
+
+        <!-- YOUR TASKS -->
+        <section class="home-section">
+
+          <div class="section-heading-row">
+
+            <div>
+
+              <div class="kicker">
+                Your tasks
+              </div>
+
+              <h2>
+                Things for you
+              </h2>
+
+            </div>
+
+            <a
+              class="section-link"
+              href="tasks.html"
+            >
+              View all
+            </a>
+
+          </div>
+
+
+          <div
+            id="yourTasks"
+            class="compact-list"
+          ></div>
+
+        </section>
+
+
+        <!-- HOUSEHOLD SNAPSHOT -->
+        <section class="home-section">
+
+          <div class="section-heading-row">
+
+            <div>
+
+              <div class="kicker">
+                Household
+              </div>
+
+              <h2>
+                At a glance
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="snapshot-grid">
+
+            <a
+              href="tasks.html"
+              class="snapshot-card"
+            >
+
+              <div class="snapshot-top">
+
+                <div class="snapshot-icon">
+                  ✓
+                </div>
+
+                <div
+                  id="snapshotTasks"
+                  class="snapshot-number"
+                >
+                  0
+                </div>
+
+              </div>
+
+              <div class="snapshot-title">
+                Open tasks
+              </div>
+
+            </a>
+
+
+            <a
+              href="shopping.html"
+              class="snapshot-card"
+            >
+
+              <div class="snapshot-top">
+
+                <div class="snapshot-icon">
+                  🛒
+                </div>
+
+                <div
+                  id="snapshotShopping"
+                  class="snapshot-number"
+                >
+                  0
+                </div>
+
+              </div>
+
+              <div class="snapshot-title">
+                Shopping items
+              </div>
+
+            </a>
+
+
+            <a
+              href="calendar.html"
+              class="snapshot-card"
+            >
+
+              <div class="snapshot-top">
+
+                <div class="snapshot-icon">
+                  ▦
+                </div>
+
+                <div
+                  id="snapshotEvents"
+                  class="snapshot-number"
+                >
+                  0
+                </div>
+
+              </div>
+
+              <div class="snapshot-title">
+                Upcoming events
+              </div>
+
+            </a>
+
+
+            <a
+              href="people.html"
+              class="snapshot-card"
+            >
+
+              <div class="snapshot-top">
+
+                <div class="snapshot-icon">
+                  ◉
+                </div>
+
+                <div
+                  id="snapshotMembers"
+                  class="snapshot-number"
+                >
+                  0
+                </div>
+
+              </div>
+
+              <div class="snapshot-title">
+                Members
+              </div>
+
+            </a>
+
+          </div>
+
+        </section>
+
+
+        <!-- SHOPPING PREVIEW -->
+        <section
+          id="shoppingSection"
+          class="home-section hidden"
+        >
+
+          <div class="section-heading-row">
+
+            <div>
+
+              <div class="kicker">
+                Shopping
+              </div>
+
+              <h2>
+                The household needs
+              </h2>
+
+            </div>
+
+            <a
+              class="section-link"
+              href="shopping.html"
+            >
+              View list
+            </a>
+
+          </div>
+
+
+          <div
+            id="shoppingPreview"
+            class="compact-list"
+          ></div>
+
+        </section>
+
+
+        <!-- UPCOMING -->
+        <section
+          id="upcomingSection"
+          class="home-section hidden"
+        >
+
+          <div class="section-heading-row">
+
+            <div>
+
+              <div class="kicker">
+                Upcoming
+              </div>
+
+              <h2>
+                What's next
+              </h2>
+
+            </div>
+
+            <a
+              class="section-link"
+              href="calendar.html"
+            >
+              Calendar
+            </a>
+
+          </div>
+
+
+          <div
+            id="upcomingList"
+            class="compact-list"
+          ></div>
+
+        </section>
+
+
+        <!-- HOUSEHOLD MEMBERS -->
+        <section class="home-section">
+
+          <div class="section-heading-row">
+
+            <div>
+
+              <div class="kicker">
+                People
+              </div>
+
+              <h2>
+                Your household
+              </h2>
+
+            </div>
+
+            <a
+              class="section-link"
+              href="people.html"
+            >
+              Manage
+            </a>
+
+          </div>
+
+
+          <div
+            id="membersList"
+            class="members-strip"
+          ></div>
+
+        </section>
+
+
+        <!-- GET STARTED -->
+        <section
+          id="gettingStarted"
+          class="home-section"
+        >
+
+          <div class="getting-started">
+
+            <div class="kicker">
+              Get started
+            </div>
+
+            <h2>
+              Build your household
+            </h2>
+
+            <p>
+              Add the things your household needs to remember, organise and manage.
+            </p>
+
+
+            <div class="starter-actions">
+
+              <a
+                href="tasks.html"
+                class="starter-action"
+              >
+                <span class="starter-icon">
+                  ✓
+                </span>
+
+                <span>
+                  <strong>
+                    Add a task
+                  </strong>
+
+                  <small>
+                    Something that needs doing
+                  </small>
+                </span>
+
+              </a>
+
+
+              <a
+                href="shopping.html"
+                class="starter-action"
+              >
+                <span class="starter-icon">
+                  🛒
+                </span>
+
+                <span>
+                  <strong>
+                    Start a shopping list
+                  </strong>
+
+                  <small>
+                    Something the home needs
+                  </small>
+                </span>
+
+              </a>
+
+
+              <a
+                href="calendar.html"
+                class="starter-action"
+              >
+                <span class="starter-icon">
+                  ▦
+                </span>
+
+                <span>
+                  <strong>
+                    Add an event
+                  </strong>
+
+                  <small>
+                    Something happening
+                  </small>
+                </span>
+
+              </a>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- RECENT ACTIVITY -->
+        <section
+          id="activitySection"
+          class="home-section hidden"
+        >
+
+          <div class="section-heading-row">
+
+            <div>
+
+              <div class="kicker">
+                Recent activity
+              </div>
+
+              <h2>
+                What's changed
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="activityList"
+            class="compact-list"
+          ></div>
+
+        </section>
+
+      </main>
+
+
+      <!-- BOTTOM NAVIGATION -->
+      <nav class="bottom">
+
+        <button
+          class="fab"
+          type="button"
+          onclick="openAdd()"
+          aria-label="Add"
+        >
+          +
+        </button>
+
+
+        <a
+          class="nav active"
+          href="index.html"
+        >
+
+          <span class="nav-icon">
+            ⌂
+          </span>
+
           Home
+
         </a>
 
-        <a class="nav" href="tasks.html">
-          <span class="nav-icon">✓</span>
+
+        <a
+          class="nav"
+          href="tasks.html"
+        >
+
+          <span class="nav-icon">
+            ✓
+          </span>
+
           Tasks
+
         </a>
 
-        <a class="nav" href="shopping.html">
-          <span class="nav-icon">🛒</span>
+
+        <a
+          class="nav"
+          href="shopping.html"
+        >
+
+          <span class="nav-icon">
+            🛒
+          </span>
+
           Shop
+
         </a>
 
-        <a class="nav" href="more.html">
-          <span class="nav-icon">•••</span>
+
+        <a
+          class="nav"
+          href="more.html"
+        >
+
+          <span class="nav-icon">
+            •••
+          </span>
+
           More
+
         </a>
 
-      </div>
+      </nav>
 
     </div>
+
   </div>
+
 
   <div id="modalRoot"></div>
 
+
   <script src="app.js"></script>
 
+
   <script>
-    const d = getData();
 
-    document.getElementById("homeTitle").textContent = d.household.name;
-    document.getElementById("heroHouse").textContent = d.household.name;
+    /* =====================================================
+       HOME DASHBOARD
+    ===================================================== */
 
-    document.getElementById("taskMetric").textContent =
-      `${d.tasks.filter(x => !x.done).length} open tasks`;
+    const data = getData();
 
-    document.getElementById("taskSub").textContent =
-      d.tasks.length ? `${d.tasks.length} total` : "Nothing added yet";
 
-    document.getElementById("shopSub").textContent =
-      d.shopping.length
-        ? `${d.shopping.filter(x => !x.bought).length} items needed`
-        : "Nothing added yet";
+    /* -----------------------------------------------------
+       USER
+    ----------------------------------------------------- */
 
-    document.getElementById("eventSub").textContent =
-      d.events.length
-        ? `${d.events.length} planned`
-        : "Nothing planned yet";
+    const userName =
+      localStorage.getItem(
+        "home-manager-user-name"
+      ) ||
+      "there";
 
-    document.getElementById("moneySub").textContent =
-      d.expenses.length
-        ? `${d.expenses.length} items`
-        : "Nothing added yet";
 
-    document.getElementById("memberPreview").innerHTML =
-      d.members
-        .slice(0, 4)
-        .map(m => `
-          <div class="row">
-            <div style="display:flex;align-items:center;gap:10px">
-              <div class="avatar">${safe(m.initials)}</div>
+    const firstName =
+      userName
+        .trim()
+        .split(/\s+/)[0] ||
+        "there";
 
-              <div>
-                <div class="member-name">${safe(m.name)}</div>
-                <div class="member-role">${safe(m.role)}</div>
+
+    const hour =
+      new Date().getHours();
+
+
+    let greeting;
+
+    if (hour < 12) {
+      greeting = "Good morning";
+    } else if (hour < 18) {
+      greeting = "Good afternoon";
+    } else {
+      greeting = "Good evening";
+    }
+
+
+    document.getElementById(
+      "greetingTime"
+    ).textContent =
+      greeting;
+
+
+    document.getElementById(
+      "greetingName"
+    ).textContent =
+      `${firstName}`;
+
+
+    document.getElementById(
+      "introText"
+    ).textContent =
+      `${data.household.name} · everything your household needs, together.`;
+
+
+    /* -----------------------------------------------------
+       DATE HELPERS
+    ----------------------------------------------------- */
+
+    function localDateKey(date) {
+
+      const year =
+        date.getFullYear();
+
+      const month =
+        String(
+          date.getMonth() + 1
+        ).padStart(2, "0");
+
+      const day =
+        String(
+          date.getDate()
+        ).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    }
+
+
+    function parseDate(value) {
+
+      if (!value) {
+        return null;
+      }
+
+      return new Date(
+        `${value}T12:00:00`
+      );
+    }
+
+
+    const today =
+      new Date();
+
+
+    const todayKey =
+      localDateKey(today);
+
+
+    const tomorrow =
+      new Date(today);
+
+    tomorrow.setDate(
+      tomorrow.getDate() + 1
+    );
+
+
+    const tomorrowKey =
+      localDateKey(tomorrow);
+
+
+    /* -----------------------------------------------------
+       ATTENTION
+    ----------------------------------------------------- */
+
+    const attention = [];
+
+
+    data.tasks
+      .filter(
+        task =>
+          !task.done &&
+          task.date &&
+          task.date < todayKey
+      )
+      .forEach(task => {
+
+        attention.push({
+          type: "task",
+          title: task.title,
+          meta: `Overdue · ${task.assignee || "Unassigned"}`,
+          href: "tasks.html"
+        });
+
+      });
+
+
+    data.expenses
+      .filter(
+        expense =>
+          expense.date &&
+          expense.date <= tomorrowKey
+      )
+      .forEach(expense => {
+
+        attention.push({
+          type: "money",
+          title: expense.title,
+          meta:
+            expense.date === todayKey
+              ? "Due today"
+              : "Due tomorrow",
+          amount:
+            Number(
+              expense.amount || 0
+            ),
+          href: "money.html"
+        });
+
+      });
+
+
+    const attentionSection =
+      document.getElementById(
+        "attentionSection"
+      );
+
+
+    const attentionList =
+      document.getElementById(
+        "attentionList"
+      );
+
+
+    const allClear =
+      document.getElementById(
+        "allClearSection"
+      );
+
+
+    if (attention.length) {
+
+      attentionSection.classList.remove(
+        "hidden"
+      );
+
+      allClear.classList.add(
+        "hidden"
+      );
+
+
+      attentionList.innerHTML =
+        attention
+          .slice(0, 4)
+          .map(item => `
+
+            <a
+              href="${item.href}"
+              class="attention-item"
+            >
+
+              <div class="attention-icon">
+                ${
+                  item.type === "task"
+                    ? "!"
+                    : "$"
+                }
               </div>
-            </div>
+
+              <div class="attention-main">
+
+                <div class="attention-title">
+                  ${safe(item.title)}
+                </div>
+
+                <div class="attention-meta">
+                  ${safe(item.meta)}
+                </div>
+
+              </div>
+
+              ${
+                item.amount !== undefined
+                  ? `
+                    <div class="attention-amount">
+                      $${item.amount.toFixed(2)}
+                    </div>
+                  `
+                  : ""
+              }
+
+              <div class="attention-arrow">
+                ›
+              </div>
+
+            </a>
+
+          `)
+          .join("");
+
+    } else {
+
+      attentionSection.classList.add(
+        "hidden"
+      );
+
+      allClear.classList.remove(
+        "hidden"
+      );
+
+    }
+
+
+    /* -----------------------------------------------------
+       TODAY
+    ----------------------------------------------------- */
+
+    const todayItems = [];
+
+
+    data.tasks
+      .filter(
+        task =>
+          !task.done &&
+          task.date === todayKey
+      )
+      .forEach(task => {
+
+        todayItems.push({
+          kind: "Task",
+          title: task.title,
+          meta:
+            task.assignee === firstName ||
+            task.assignee === userName ||
+            task.assignee === "You"
+              ? "Your task"
+              : `Assigned to ${task.assignee || "someone"}`,
+          icon: "✓",
+          href: "tasks.html"
+        });
+
+      });
+
+
+    data.events
+      .filter(
+        event =>
+          event.date === todayKey
+      )
+      .forEach(event => {
+
+        todayItems.push({
+          kind: "Event",
+          title: event.title,
+          meta:
+            event.time
+              ? event.time
+              : "Today",
+          icon: "▦",
+          href: "calendar.html"
+        });
+
+      });
+
+
+    const todayContent =
+      document.getElementById(
+        "todayContent"
+      );
+
+
+    if (todayItems.length) {
+
+      todayContent.innerHTML =
+        todayItems
+          .slice(0, 5)
+          .map(item => `
+
+            <a
+              class="today-item"
+              href="${item.href}"
+            >
+
+              <div class="today-icon">
+                ${item.icon}
+              </div>
+
+              <div class="today-main">
+
+                <div class="today-kind">
+                  ${safe(item.kind)}
+                </div>
+
+                <div class="today-title">
+                  ${safe(item.title)}
+                </div>
+
+              </div>
+
+              <div class="today-meta">
+                ${safe(item.meta)}
+              </div>
+
+              <div class="today-arrow">
+                ›
+              </div>
+
+            </a>
+
+          `)
+          .join("");
+
+    } else {
+
+      todayContent.innerHTML = `
+
+        <div class="mini-empty">
+
+          <div class="mini-empty-icon">
+            ✓
           </div>
+
+          <div>
+
+            <div class="mini-empty-title">
+              Nothing planned for today
+            </div>
+
+            <div class="mini-empty-copy">
+              Your household has a clear day ahead.
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* -----------------------------------------------------
+       YOUR TASKS
+    ----------------------------------------------------- */
+
+    const yourTasks =
+      data.tasks
+        .filter(
+          task =>
+            !task.done &&
+            (
+              task.assignee === firstName ||
+              task.assignee === userName ||
+              task.assignee === "You"
+            )
+        )
+        .sort(
+          (a, b) =>
+            (a.date || "9999")
+              .localeCompare(
+                b.date || "9999"
+              )
+        );
+
+
+    const yourTasksElement =
+      document.getElementById(
+        "yourTasks"
+      );
+
+
+    if (yourTasks.length) {
+
+      yourTasksElement.innerHTML =
+        yourTasks
+          .slice(0, 4)
+          .map(task => `
+
+            <a
+              class="compact-item"
+              href="tasks.html"
+            >
+
+              <div class="compact-icon">
+                ✓
+              </div>
+
+              <div class="compact-main">
+
+                <div class="compact-title">
+                  ${safe(task.title)}
+                </div>
+
+                <div class="compact-meta">
+                  ${
+                    task.date
+                      ? fmtDate(task.date)
+                      : "No due date"
+                  }
+                </div>
+
+              </div>
+
+              <div class="compact-arrow">
+                ›
+              </div>
+
+            </a>
+
+          `)
+          .join("");
+
+    } else {
+
+      yourTasksElement.innerHTML = `
+
+        <div class="mini-empty">
+
+          <div class="mini-empty-icon">
+            ✓
+          </div>
+
+          <div>
+
+            <div class="mini-empty-title">
+              No tasks assigned to you
+            </div>
+
+            <div class="mini-empty-copy">
+              Your assigned tasks will appear here.
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* -----------------------------------------------------
+       SNAPSHOT
+    ----------------------------------------------------- */
+
+    document.getElementById(
+      "snapshotTasks"
+    ).textContent =
+      data.tasks.filter(
+        task => !task.done
+      ).length;
+
+
+    document.getElementById(
+      "snapshotShopping"
+    ).textContent =
+      data.shopping.filter(
+        item => !item.bought
+      ).length;
+
+
+    document.getElementById(
+      "snapshotEvents"
+    ).textContent =
+      data.events.length;
+
+
+    document.getElementById(
+      "snapshotMembers"
+    ).textContent =
+      data.members.length;
+
+
+    /* -----------------------------------------------------
+       SHOPPING PREVIEW
+    ----------------------------------------------------- */
+
+    const activeShopping =
+      data.shopping.filter(
+        item => !item.bought
+      );
+
+
+    const shoppingSection =
+      document.getElementById(
+        "shoppingSection"
+      );
+
+
+    const shoppingPreview =
+      document.getElementById(
+        "shoppingPreview"
+      );
+
+
+    if (activeShopping.length) {
+
+      shoppingSection.classList.remove(
+        "hidden"
+      );
+
+
+      shoppingPreview.innerHTML =
+        activeShopping
+          .slice(0, 4)
+          .map(item => `
+
+            <a
+              class="compact-item"
+              href="shopping.html"
+            >
+
+              <div class="compact-icon">
+                🛒
+              </div>
+
+              <div class="compact-main">
+
+                <div class="compact-title">
+                  ${safe(item.title)}
+                </div>
+
+                <div class="compact-meta">
+                  Qty ${safe(item.qty || "1")} ·
+                  ${safe(item.category || "Other")}
+                </div>
+
+              </div>
+
+              <div class="compact-arrow">
+                ›
+              </div>
+
+            </a>
+
+          `)
+          .join("");
+
+    } else {
+
+      shoppingSection.classList.add(
+        "hidden"
+      );
+
+    }
+
+
+    /* -----------------------------------------------------
+       UPCOMING EVENTS
+    ----------------------------------------------------- */
+
+    const upcomingEvents =
+      data.events
+        .filter(event => {
+
+          if (!event.date) {
+            return true;
+          }
+
+          return event.date >= todayKey;
+
+        })
+        .sort(
+          (a, b) =>
+            (a.date || "9999")
+              .localeCompare(
+                b.date || "9999"
+              )
+        );
+
+
+    const upcomingSection =
+      document.getElementById(
+        "upcomingSection"
+      );
+
+
+    const upcomingList =
+      document.getElementById(
+        "upcomingList"
+      );
+
+
+    if (upcomingEvents.length) {
+
+      upcomingSection.classList.remove(
+        "hidden"
+      );
+
+
+      upcomingList.innerHTML =
+        upcomingEvents
+          .slice(0, 4)
+          .map(event => `
+
+            <a
+              class="compact-item"
+              href="calendar.html"
+            >
+
+              <div class="compact-icon">
+                ▦
+              </div>
+
+              <div class="compact-main">
+
+                <div class="compact-title">
+                  ${safe(event.title)}
+                </div>
+
+                <div class="compact-meta">
+
+                  ${
+                    event.date
+                      ? fmtDate(event.date)
+                      : "No date"
+                  }
+
+                  ${
+                    event.time
+                      ? ` · ${safe(event.time)}`
+                      : ""
+                  }
+
+                </div>
+
+              </div>
+
+              <div class="compact-arrow">
+                ›
+              </div>
+
+            </a>
+
+          `)
+          .join("");
+
+    } else {
+
+      upcomingSection.classList.add(
+        "hidden"
+      );
+
+    }
+
+
+    /* -----------------------------------------------------
+       MEMBERS
+    ----------------------------------------------------- */
+
+    const membersList =
+      document.getElementById(
+        "membersList"
+      );
+
+
+    membersList.innerHTML =
+      data.members
+        .map(member => `
+
+          <a
+            href="people.html"
+            class="member-chip"
+          >
+
+            <div class="avatar">
+              ${safe(member.initials)}
+            </div>
+
+            <div class="member-chip-name">
+              ${safe(member.name)}
+            </div>
+
+          </a>
+
         `)
         .join("");
+
+
+    /* -----------------------------------------------------
+       GETTING STARTED
+       Only keep it prominent while the household
+       is still essentially empty.
+    ----------------------------------------------------- */
+
+    const hasCoreData =
+      data.tasks.length ||
+      data.shopping.length ||
+      data.events.length ||
+      data.expenses.length ||
+      data.homeInfo.length;
+
+
+    const gettingStarted =
+      document.getElementById(
+        "gettingStarted"
+      );
+
+
+    if (hasCoreData) {
+
+      gettingStarted.classList.add(
+        "hidden"
+      );
+
+    }
+
+
+    /* -----------------------------------------------------
+       ACTIVITY
+       Supports future createdAt activity records.
+    ----------------------------------------------------- */
+
+    const activityRecords = [
+
+      ...data.tasks.map(item => ({
+        title:
+          item.done
+            ? "Task completed"
+            : "Task added",
+        detail:
+          item.title,
+        date:
+          item.createdAt || null
+      })),
+
+      ...data.shopping.map(item => ({
+        title:
+          item.bought
+            ? "Shopping item completed"
+            : "Shopping item added",
+        detail:
+          item.title,
+        date:
+          item.createdAt || null
+      })),
+
+      ...data.events.map(item => ({
+        title:
+          "Event added",
+        detail:
+          item.title,
+        date:
+          item.createdAt || null
+      })),
+
+      ...data.expenses.map(item => ({
+        title:
+          "Expense added",
+        detail:
+          item.title,
+        date:
+          item.createdAt || null
+      }))
+
+    ]
+      .filter(item => item.date)
+      .sort(
+        (a, b) =>
+          new Date(b.date) -
+          new Date(a.date)
+      );
+
+
+    const activitySection =
+      document.getElementById(
+        "activitySection"
+      );
+
+
+    const activityList =
+      document.getElementById(
+        "activityList"
+      );
+
+
+    if (activityRecords.length) {
+
+      activitySection.classList.remove(
+        "hidden"
+      );
+
+
+      activityList.innerHTML =
+        activityRecords
+          .slice(0, 5)
+          .map(item => `
+
+            <div class="compact-item">
+
+              <div class="compact-icon">
+                •
+              </div>
+
+              <div class="compact-main">
+
+                <div class="compact-title">
+                  ${safe(item.title)}
+                </div>
+
+                <div class="compact-meta">
+                  ${safe(item.detail)}
+                </div>
+
+              </div>
+
+            </div>
+
+          `)
+          .join("");
+
+    } else {
+
+      activitySection.classList.add(
+        "hidden"
+      );
+
+    }
+
   </script>
 
 </body>
+
 </html>
