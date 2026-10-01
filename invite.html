@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Invite Household · Home Manager</title>
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
+</head>
+
+<body>
+
+  <div class="login-shell">
+
+    <div class="login-card">
+
+      <div class="login-brand">
+
+        <div class="login-logo">
+
+          <img
+            src="House_Manager_Logo.png"
+            alt="Home Manager logo"
+          >
+
+        </div>
+
+        <div class="login-brand-name">
+          HOME MANAGER
+        </div>
+
+      </div>
+
+
+      <div class="login-heading">
+
+        <div class="login-kicker">
+          Step 2 of 2
+        </div>
+
+        <h1>
+          Invite your household
+        </h1>
+
+        <p>
+          Share this code with the people you live with.
+        </p>
+
+      </div>
+
+
+      <div class="invite-code-card">
+
+        <div class="invite-label">
+          HOUSEHOLD INVITE CODE
+        </div>
+
+        <div
+          id="inviteCode"
+          class="invite-code"
+        >
+          HOME-4821
+        </div>
+
+        <button
+          class="button primary"
+          onclick="copyInviteCode()"
+        >
+          Copy invite code
+        </button>
+
+      </div>
+
+
+      <div class="stack">
+
+        <button
+          class="button primary login-button"
+          onclick="location.href='index.html'"
+        >
+          Go to my household
+        </button>
+
+        <button
+          class="button outline login-button"
+          onclick="location.href='index.html'"
+        >
+          Skip for now
+        </button>
+
+      </div>
+
+
+      <div class="login-footer">
+        You can find your invite code later in People.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script src="app.js"></script>
+
+
+  <script>
+
+    const data =
+      getData();
+
+    if (
+      !data.household.inviteCode
+    ) {
+
+      data.household.inviteCode =
+        "HOME-" +
+        Math.floor(
+          1000 +
+          Math.random() * 9000
+        );
+
+      saveData(data);
+    }
+
+
+    document.getElementById(
+      "inviteCode"
+    ).textContent =
+      data.household.inviteCode;
+
+
+    function copyInviteCode() {
+
+      const code =
+        getData()
+          .household
+          .inviteCode;
+
+      navigator.clipboard
+        ?.writeText(code);
+
+      alert(
+        "Invite code copied."
+      );
+    }
+
+  </script>
+
+</body>
+
+</html>
