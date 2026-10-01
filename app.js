@@ -52,11 +52,13 @@ const defaultData = {
 ========================================================= */
 
 function isLoggedIn() {
+
   return (
     localStorage.getItem(
       "home-manager-logged-in"
     ) === "true"
   );
+
 }
 
 
@@ -78,13 +80,13 @@ function requireLogin() {
     );
 
   }
+
 }
 
 
 function logout() {
 
   /*
-    IMPORTANT:
     Household data is intentionally NOT removed.
     Logging out only clears the current user's
     prototype session/profile information.
@@ -113,6 +115,7 @@ function logout() {
   window.location.replace(
     "login.html"
   );
+
 }
 
 
@@ -128,6 +131,7 @@ function confirmLogout() {
   }
 
   logout();
+
 }
 
 
@@ -140,18 +144,23 @@ function getData() {
   try {
 
     const saved =
-      localStorage.getItem(KEY);
+      localStorage.getItem(
+        KEY
+      );
 
     if (!saved) {
+
       return structuredClone(
         defaultData
       );
+
     }
 
     const data =
       JSON.parse(saved);
 
     return {
+
       household:
         data.household ||
         structuredClone(
@@ -189,6 +198,7 @@ function getData() {
         Array.isArray(data.homeInfo)
           ? data.homeInfo
           : []
+
     };
 
   } catch {
@@ -198,6 +208,7 @@ function getData() {
     );
 
   }
+
 }
 
 
@@ -223,6 +234,14 @@ function uid() {
       .toString(36)
       .slice(2)
   );
+
+}
+
+
+function now() {
+
+  return new Date()
+    .toISOString();
 
 }
 
@@ -328,15 +347,15 @@ function emptyState(
     <div class="empty">
 
       <div class="empty-icon">
-        ${iconChar}
+        ${safe(iconChar)}
       </div>
 
       <h2>
-        ${title}
+        ${safe(title)}
       </h2>
 
       <p>
-        ${copy}
+        ${safe(copy)}
       </p>
 
       ${
@@ -345,10 +364,11 @@ function emptyState(
             <div style="margin-top:18px">
 
               <button
+                type="button"
                 class="button primary"
                 onclick="${handler || "openAdd()"}"
               >
-                ${buttonText}
+                ${safe(buttonText)}
               </button>
 
             </div>
@@ -382,20 +402,29 @@ function openAdd() {
     <div
       class="modal-backdrop"
       onclick="
-        if(event.target === this)
+        if (event.target === this)
           closeModal()
       "
     >
 
-      <div class="modal">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="addModalTitle"
+      >
 
         <div class="modal-header">
 
-          <div class="modal-title">
+          <div
+            class="modal-title"
+            id="addModalTitle"
+          >
             Add to your household
           </div>
 
           <button
+            type="button"
             class="close"
             onclick="closeModal()"
             aria-label="Close"
@@ -405,9 +434,13 @@ function openAdd() {
 
         </div>
 
+
         <div class="quick-grid">
 
+          <!-- TASK -->
+
           <button
+            type="button"
             class="quick"
             onclick="openForm('task')"
           >
@@ -427,7 +460,10 @@ function openAdd() {
           </button>
 
 
+          <!-- SHOPPING -->
+
           <button
+            type="button"
             class="quick"
             onclick="openForm('shopping')"
           >
@@ -437,17 +473,20 @@ function openAdd() {
             </div>
 
             <div class="quick-title">
-              Shopping item
+              Shopping
             </div>
 
             <div class="quick-sub">
-              Something the home needs
+              Something the household needs
             </div>
 
           </button>
 
 
+          <!-- EVENT -->
+
           <button
+            type="button"
             class="quick"
             onclick="openForm('event')"
           >
@@ -467,7 +506,10 @@ function openAdd() {
           </button>
 
 
+          <!-- EXPENSE -->
+
           <button
+            type="button"
             class="quick"
             onclick="openForm('expense')"
           >
@@ -493,6 +535,32 @@ function openAdd() {
     </div>
   `;
 
+
+  /*
+    Allow Escape to close the Add panel.
+  */
+
+  document.addEventListener(
+    "keydown",
+    handleModalEscape
+  );
+
+}
+
+
+function handleModalEscape(event) {
+
+  if (
+    event.key === "Escape" &&
+    document.getElementById(
+      "modalRoot"
+    )?.innerHTML
+  ) {
+
+    closeModal();
+
+  }
+
 }
 
 
@@ -512,6 +580,11 @@ function closeModal() {
   }
 
   root.innerHTML = "";
+
+  document.removeEventListener(
+    "keydown",
+    handleModalEscape
+  );
 
 }
 
@@ -539,10 +612,6 @@ function openForm(type) {
   };
 
 
-  const data =
-    getData();
-
-
   const body = {
 
     task: `
@@ -559,6 +628,8 @@ function openForm(type) {
         <input
           id="fTitle"
           class="input"
+          type="text"
+          autocomplete="off"
           placeholder="e.g. Clean the kitchen"
         >
 
@@ -580,10 +651,11 @@ function openForm(type) {
         >
 
           ${
-            data.members
+            getData()
+              .members
               .map(
                 member => `
-                  <option>
+                  <option value="${safe(member.name)}">
                     ${safe(member.name)}
                   </option>
                 `
@@ -630,6 +702,8 @@ function openForm(type) {
         <input
           id="fTitle"
           class="input"
+          type="text"
+          autocomplete="off"
           placeholder="e.g. Milk"
         >
 
@@ -648,6 +722,10 @@ function openForm(type) {
         <input
           id="fQty"
           class="input"
+          type="number"
+          min="1"
+          step="1"
+          inputmode="numeric"
           placeholder="e.g. 2"
         >
 
@@ -668,19 +746,19 @@ function openForm(type) {
           class="input select"
         >
 
-          <option>
+          <option value="Groceries">
             Groceries
           </option>
 
-          <option>
+          <option value="Household">
             Household
           </option>
 
-          <option>
+          <option value="Pet">
             Pet
           </option>
 
-          <option>
+          <option value="Other">
             Other
           </option>
 
@@ -705,6 +783,8 @@ function openForm(type) {
         <input
           id="fTitle"
           class="input"
+          type="text"
+          autocomplete="off"
           placeholder="e.g. Dinner at Grandma's"
         >
 
@@ -763,6 +843,8 @@ function openForm(type) {
         <input
           id="fTitle"
           class="input"
+          type="text"
+          autocomplete="off"
           placeholder="e.g. Electricity"
         >
 
@@ -784,6 +866,7 @@ function openForm(type) {
           type="number"
           step="0.01"
           min="0"
+          inputmode="decimal"
           placeholder="0.00"
         >
 
@@ -832,20 +915,29 @@ function openForm(type) {
     <div
       class="modal-backdrop"
       onclick="
-        if(event.target === this)
+        if (event.target === this)
           closeModal()
       "
     >
 
-      <div class="modal">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="formModalTitle"
+      >
 
         <div class="modal-header">
 
-          <div class="modal-title">
-            ${titles[type]}
+          <div
+            class="modal-title"
+            id="formModalTitle"
+          >
+            ${safe(titles[type])}
           </div>
 
           <button
+            type="button"
             class="close"
             onclick="closeModal()"
             aria-label="Close"
@@ -868,6 +960,7 @@ function openForm(type) {
         >
 
           <button
+            type="button"
             class="button outline"
             style="flex:1"
             onclick="closeModal()"
@@ -877,6 +970,7 @@ function openForm(type) {
 
 
           <button
+            type="button"
             class="button primary"
             style="flex:1"
             onclick="submitForm('${type}')"
@@ -890,6 +984,21 @@ function openForm(type) {
 
     </div>
   `;
+
+
+  /*
+    Focus the main field immediately.
+  */
+
+  document
+    .getElementById("fTitle")
+    ?.focus();
+
+
+  document.addEventListener(
+    "keydown",
+    handleModalEscape
+  );
 
 }
 
@@ -913,7 +1022,7 @@ function submitForm(type) {
   const title =
     titleElement
       ?.value
-      .trim();
+      ?.trim();
 
 
   if (!title) {
@@ -925,108 +1034,198 @@ function submitForm(type) {
     titleElement?.focus();
 
     return;
+
   }
 
 
+  /* -------------------------------------------------------
+     TASK
+  ------------------------------------------------------- */
+
   if (type === "task") {
+
+    const assignee =
+      document.getElementById(
+        "fAssignee"
+      )?.value || "You";
+
+
+    const date =
+      document.getElementById(
+        "fDate"
+      )?.value || "";
+
 
     data.tasks.unshift({
 
-      id: uid(),
+      id:
+        uid(),
 
       title,
 
-      assignee:
-        document.getElementById(
-          "fAssignee"
-        )?.value || "You",
+      assignee,
 
-      date:
-        document.getElementById(
-          "fDate"
-        )?.value || "",
+      date,
 
-      done: false
+      done:
+        false,
+
+      createdAt:
+        now()
 
     });
 
   }
 
 
+  /* -------------------------------------------------------
+     SHOPPING
+  ------------------------------------------------------- */
+
   if (type === "shopping") {
+
+    const quantityValue =
+      document.getElementById(
+        "fQty"
+      )?.value
+      ?.trim();
+
+
+    const quantity =
+      quantityValue &&
+      Number(quantityValue) > 0
+        ? quantityValue
+        : "1";
+
+
+    const category =
+      document.getElementById(
+        "fCategory"
+      )?.value || "Other";
+
 
     data.shopping.unshift({
 
-      id: uid(),
+      id:
+        uid(),
 
       title,
 
       qty:
-        document.getElementById(
-          "fQty"
-        )?.value || "1",
+        quantity,
 
-      category:
-        document.getElementById(
-          "fCategory"
-        )?.value || "Other",
+      category,
 
-      bought: false
+      bought:
+        false,
+
+      createdAt:
+        now()
 
     });
 
   }
 
+
+  /* -------------------------------------------------------
+     EVENT
+  ------------------------------------------------------- */
 
   if (type === "event") {
 
+    const date =
+      document.getElementById(
+        "fDate"
+      )?.value || "";
+
+
+    const time =
+      document.getElementById(
+        "fTime"
+      )?.value || "";
+
+
     data.events.unshift({
 
-      id: uid(),
+      id:
+        uid(),
 
       title,
 
-      date:
-        document.getElementById(
-          "fDate"
-        )?.value || "",
+      date,
 
-      time:
-        document.getElementById(
-          "fTime"
-        )?.value || ""
+      time,
+
+      createdAt:
+        now()
 
     });
 
   }
 
+
+  /* -------------------------------------------------------
+     EXPENSE
+  ------------------------------------------------------- */
 
   if (type === "expense") {
 
+    const amountElement =
+      document.getElementById(
+        "fAmount"
+      );
+
+
+    const amountValue =
+      amountElement
+        ?.value
+        ?.trim();
+
+
+    const amount =
+      amountValue &&
+      Number(amountValue) >= 0
+        ? Number(amountValue).toFixed(2)
+        : "0.00";
+
+
+    const date =
+      document.getElementById(
+        "fDate"
+      )?.value || "";
+
+
     data.expenses.unshift({
 
-      id: uid(),
+      id:
+        uid(),
 
       title,
 
-      amount:
-        document.getElementById(
-          "fAmount"
-        )?.value || "0",
+      amount,
 
-      date:
-        document.getElementById(
-          "fDate"
-        )?.value || ""
+      date,
+
+      createdAt:
+        now()
 
     });
 
   }
 
 
-  saveData(data);
+  saveData(
+    data
+  );
+
 
   closeModal();
+
+
+  /*
+    Reload so existing pages immediately
+    reflect the new household data.
+  */
 
   window.location.reload();
 
@@ -1058,7 +1257,10 @@ function toggleTask(id) {
     !task.done;
 
 
-  saveData(data);
+  saveData(
+    data
+  );
+
 
   window.location.reload();
 
@@ -1088,7 +1290,10 @@ function deleteTask(id) {
     );
 
 
-  saveData(data);
+  saveData(
+    data
+  );
+
 
   window.location.reload();
 
@@ -1120,7 +1325,10 @@ function toggleShop(id) {
     !item.bought;
 
 
-  saveData(data);
+  saveData(
+    data
+  );
+
 
   window.location.reload();
 
@@ -1150,7 +1358,10 @@ function deleteShop(id) {
     );
 
 
-  saveData(data);
+  saveData(
+    data
+  );
+
 
   window.location.reload();
 
@@ -1184,7 +1395,10 @@ function deleteEvent(id) {
     );
 
 
-  saveData(data);
+  saveData(
+    data
+  );
+
 
   window.location.reload();
 
@@ -1218,7 +1432,10 @@ function deleteExpense(id) {
     );
 
 
-  saveData(data);
+  saveData(
+    data
+  );
+
 
   window.location.reload();
 
@@ -1252,7 +1469,10 @@ function deleteHomeInfo(id) {
     );
 
 
-  saveData(data);
+  saveData(
+    data
+  );
+
 
   window.location.reload();
 
@@ -1285,7 +1505,10 @@ function renameHousehold() {
     name.trim();
 
 
-  saveData(data);
+  saveData(
+    data
+  );
+
 
   window.location.reload();
 
@@ -1315,6 +1538,7 @@ function copyInvite() {
     );
 
     return;
+
   }
 
 
@@ -1323,8 +1547,10 @@ function copyInvite() {
       "textarea"
     );
 
+
   helper.value =
     code;
+
 
   helper.style.position =
     "fixed";
@@ -1332,11 +1558,14 @@ function copyInvite() {
   helper.style.opacity =
     "0";
 
+
   document.body.appendChild(
     helper
   );
 
+
   helper.select();
+
 
   try {
 
@@ -1357,6 +1586,7 @@ function copyInvite() {
     );
 
   }
+
 
   helper.remove();
 
@@ -1386,11 +1616,14 @@ function addMember() {
 
   data.members.push({
 
-    id: uid(),
+    id:
+      uid(),
 
-    name: cleanName,
+    name:
+      cleanName,
 
-    role: "Member",
+    role:
+      "Member",
 
     initials:
       getInitials(
@@ -1400,7 +1633,10 @@ function addMember() {
   });
 
 
-  saveData(data);
+  saveData(
+    data
+  );
+
 
   window.location.reload();
 
