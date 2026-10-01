@@ -1,1 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
+<body>
+  <div class="app-shell">
+    <div class="phone">
+
+      <div class="topbar">
+        <div class="topbar-row">
+
+          <a class="brand" href="index.html">
+            <div class="brand-mark">
+              <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#242423" d="M13 25 32 10l19 15h-8L32 16l-11 9z"/>
+                <rect x="19" y="37" width="7" height="20" rx="2.5" fill="#242423"/>
+                <rect x="38" y="37" width="7" height="20" rx="2.5" fill="#242423"/>
+                <rect x="22" y="44" width="20" height="6" rx="2.5" fill="#242423"/>
+              </svg>
+            </div>
+
+            <div>
+              <div class="brand-name">HOME MANAGER</div>
+              <div class="brand-sub" id="houseNameHeader">My Household</div>
+            </div>
+          </a>
+
+          <button class="header-action" onclick="location.href='settings.html'">
+            ⚙
+          </button>
+
+        </div>
+      </div>
+
+      <div class="scroll">
+
+        <div class="kicker">Welcome home</div>
+
+        <h1 id="homeTitle">My Household</h1>
+
+        <p>Everything your household needs, together.</p>
+
+        <div class="hero">
+
+          <div class="hero-pill">
+            ● Shared household
+          </div>
+
+          <h2 id="heroHouse">My Household</h2>
+
+          <p>
+            Keep tasks, shopping, plans and household information in one place.
+          </p>
+
+        </div>
+
+        <div class="kicker" style="margin-top:20px">
+          Overview
+        </div>
+
+        <div class="grid">
+
+          <a class="card click" href="tasks.html">
+            <div class="iconbox">✓</div>
+            <div class="metric" id="taskMetric">Tasks</div>
+            <div class="submetric" id="taskSub">Nothing added yet</div>
+          </a>
+
+          <a class="card click" href="shopping.html">
+            <div class="iconbox">🛒</div>
+            <div class="metric">Shopping</div>
+            <div class="submetric" id="shopSub">Nothing added yet</div>
+          </a>
+
+          <a class="card click" href="calendar.html">
+            <div class="iconbox">▦</div>
+            <div class="metric">Calendar</div>
+            <div class="submetric" id="eventSub">Nothing planned yet</div>
+          </a>
+
+          <a class="card click" href="money.html">
+            <div class="iconbox">$</div>
+            <div class="metric">Money</div>
+            <div class="submetric" id="moneySub">Nothing added yet</div>
+          </a>
+
+        </div>
+
+        <div class="section">
+          <div class="section-title">Household members</div>
+          <div id="memberPreview"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Recent activity</div>
+          <div id="activity">
+            Your household activity will appear here as people add and complete things.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="bottom">
+
+        <button class="fab" onclick="openAdd()">+</button>
+
+        <a class="nav active" href="index.html">
+          <span class="nav-icon">⌂</span>
+          Home
+        </a>
+
+        <a class="nav" href="tasks.html">
+          <span class="nav-icon">✓</span>
+          Tasks
+        </a>
+
+        <a class="nav" href="shopping.html">
+          <span class="nav-icon">🛒</span>
+          Shop
+        </a>
+
+        <a class="nav" href="more.html">
+          <span class="nav-icon">•••</span>
+          More
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="modalRoot"></div>
+
+  <script src="app.js"></script>
+
+  <script>
+    const d = getData();
+
+    document.getElementById("homeTitle").textContent = d.household.name;
+    document.getElementById("heroHouse").textContent = d.household.name;
+
+    document.getElementById("taskMetric").textContent =
+      `${d.tasks.filter(x => !x.done).length} open tasks`;
+
+    document.getElementById("taskSub").textContent =
+      d.tasks.length ? `${d.tasks.length} total` : "Nothing added yet";
+
+    document.getElementById("shopSub").textContent =
+      d.shopping.length
+        ? `${d.shopping.filter(x => !x.bought).length} items needed`
+        : "Nothing added yet";
+
+    document.getElementById("eventSub").textContent =
+      d.events.length
+        ? `${d.events.length} planned`
+        : "Nothing planned yet";
+
+    document.getElementById("moneySub").textContent =
+      d.expenses.length
+        ? `${d.expenses.length} items`
+        : "Nothing added yet";
+
+    document.getElementById("memberPreview").innerHTML =
+      d.members
+        .slice(0, 4)
+        .map(m => `
+          <div class="row">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div class="avatar">${safe(m.initials)}</div>
+
+              <div>
+                <div class="member-name">${safe(m.name)}</div>
+                <div class="member-role">${safe(m.role)}</div>
+              </div>
+            </div>
+          </div>
+        `)
+        .join("");
+  </script>
+
+</body>
+</html>
