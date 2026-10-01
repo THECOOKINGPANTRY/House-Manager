@@ -1,4 +1,28 @@
+/* =========================================================
+   HOME MANAGER
+   Main application JavaScript
+========================================================= */
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
 const KEY = "home-manager-v1";
+
+const PROTECTED_PAGES = [
+  "",
+  "index.html",
+  "tasks.html",
+  "shopping.html",
+  "calendar.html",
+  "money.html",
+  "more.html",
+  "home.html",
+  "people.html",
+  "settings.html",
+  "add.html"
+];
 
 const defaultData = {
   household: {
@@ -22,45 +46,204 @@ const defaultData = {
   homeInfo: []
 };
 
-function getData() {
-  try {
-    return (
-      JSON.parse(localStorage.getItem(KEY)) ||
-      structuredClone(defaultData)
+
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+function isLoggedIn() {
+  return (
+    localStorage.getItem(
+      "home-manager-logged-in"
+    ) === "true"
+  );
+}
+
+
+function requireLogin() {
+
+  const page =
+    window.location.pathname
+      .split("/")
+      .pop()
+      .toLowerCase();
+
+  if (
+    PROTECTED_PAGES.includes(page) &&
+    !isLoggedIn()
+  ) {
+
+    window.location.replace(
+      "login.html"
     );
-  } catch {
-    return structuredClone(defaultData);
+
   }
 }
 
+
+function logout() {
+
+  /*
+    IMPORTANT:
+    Household data is intentionally NOT removed.
+    Logging out only clears the current user's
+    prototype session/profile information.
+  */
+
+  localStorage.removeItem(
+    "home-manager-logged-in"
+  );
+
+  localStorage.removeItem(
+    "home-manager-user-name"
+  );
+
+  localStorage.removeItem(
+    "home-manager-user-email"
+  );
+
+  localStorage.removeItem(
+    "home-manager-remember"
+  );
+
+  localStorage.removeItem(
+    "home-manager-profile-created"
+  );
+
+  window.location.replace(
+    "login.html"
+  );
+}
+
+
+function confirmLogout() {
+
+  const confirmed =
+    window.confirm(
+      "Are you sure you want to log out?"
+    );
+
+  if (!confirmed) {
+    return;
+  }
+
+  logout();
+}
+
+
+/* =========================================================
+   DATA
+========================================================= */
+
+function getData() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(KEY);
+
+    if (!saved) {
+      return structuredClone(
+        defaultData
+      );
+    }
+
+    const data =
+      JSON.parse(saved);
+
+    return {
+      household:
+        data.household ||
+        structuredClone(
+          defaultData.household
+        ),
+
+      members:
+        Array.isArray(data.members)
+          ? data.members
+          : structuredClone(
+              defaultData.members
+            ),
+
+      tasks:
+        Array.isArray(data.tasks)
+          ? data.tasks
+          : [],
+
+      shopping:
+        Array.isArray(data.shopping)
+          ? data.shopping
+          : [],
+
+      events:
+        Array.isArray(data.events)
+          ? data.events
+          : [],
+
+      expenses:
+        Array.isArray(data.expenses)
+          ? data.expenses
+          : [],
+
+      homeInfo:
+        Array.isArray(data.homeInfo)
+          ? data.homeInfo
+          : []
+    };
+
+  } catch {
+
+    return structuredClone(
+      defaultData
+    );
+
+  }
+}
+
+
 function saveData(data) {
+
   localStorage.setItem(
     KEY,
     JSON.stringify(data)
   );
+
 }
 
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
 function uid() {
+
   return (
     `${Date.now()}-` +
     Math.random()
       .toString(36)
       .slice(2)
   );
+
 }
 
+
 function safe(value) {
-  return String(value ?? "").replace(
+
+  return String(
+    value ?? ""
+  ).replace(
     /[&<>'"]/g,
-    c => ({
+    character => ({
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       "'": "&#39;",
       '"': "&quot;"
-    }[c])
+    }[character])
   );
+
 }
+
 
 function fmtDate(value) {
 
@@ -68,9 +251,15 @@ function fmtDate(value) {
     return "No date";
   }
 
-  const date = new Date(
-    value + (/T/.test(value) ? "" : "T12:00:00")
-  );
+  const date =
+    new Date(
+      value +
+      (
+        /T/.test(value)
+          ? ""
+          : "T12:00:00"
+      )
+    );
 
   return date.toLocaleDateString(
     undefined,
@@ -80,7 +269,28 @@ function fmtDate(value) {
       year: "numeric"
     }
   );
+
 }
+
+
+function getInitials(name) {
+
+  return String(name || "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(
+      word => word[0]
+    )
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 function setHeader() {
 
@@ -89,11 +299,22 @@ function setHeader() {
       "houseNameHeader"
     );
 
-  if (!element) return;
+  if (!element) {
+    return;
+  }
+
+  const data =
+    getData();
 
   element.textContent =
-    getData().household.name;
+    data.household.name;
+
 }
+
+
+/* =========================================================
+   EMPTY STATES
+========================================================= */
 
 function emptyState(
   iconChar,
@@ -137,17 +358,33 @@ function emptyState(
 
     </div>
   `;
+
 }
+
+
+/* =========================================================
+   UNIVERSAL ADD
+========================================================= */
 
 function openAdd() {
 
-  document.getElementById(
-    "modalRoot"
-  ).innerHTML = `
+  const root =
+    document.getElementById(
+      "modalRoot"
+    );
+
+  if (!root) {
+    return;
+  }
+
+  root.innerHTML = `
 
     <div
       class="modal-backdrop"
-      onclick="if(event.target===this)closeModal()"
+      onclick="
+        if(event.target === this)
+          closeModal()
+      "
     >
 
       <div class="modal">
@@ -161,6 +398,7 @@ function openAdd() {
           <button
             class="close"
             onclick="closeModal()"
+            aria-label="Close"
           >
             ×
           </button>
@@ -188,6 +426,7 @@ function openAdd() {
 
           </button>
 
+
           <button
             class="quick"
             onclick="openForm('shopping')"
@@ -207,6 +446,7 @@ function openAdd() {
 
           </button>
 
+
           <button
             class="quick"
             onclick="openForm('event')"
@@ -225,6 +465,7 @@ function openAdd() {
             </div>
 
           </button>
+
 
           <button
             class="quick"
@@ -251,30 +492,67 @@ function openAdd() {
 
     </div>
   `;
+
 }
+
+
+/* =========================================================
+   MODALS
+========================================================= */
 
 function closeModal() {
 
-  document.getElementById(
-    "modalRoot"
-  ).innerHTML = "";
+  const root =
+    document.getElementById(
+      "modalRoot"
+    );
+
+  if (!root) {
+    return;
+  }
+
+  root.innerHTML = "";
+
 }
+
+
+/* =========================================================
+   FORMS
+========================================================= */
 
 function openForm(type) {
 
   const titles = {
-    task: "New task",
-    shopping: "Add shopping item",
-    event: "New event",
-    expense: "Add expense"
+
+    task:
+      "New task",
+
+    shopping:
+      "Add shopping item",
+
+    event:
+      "New event",
+
+    expense:
+      "Add expense"
+
   };
+
+
+  const data =
+    getData();
+
 
   const body = {
 
     task: `
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fTitle"
+        >
           What needs doing?
         </label>
 
@@ -286,9 +564,13 @@ function openForm(type) {
 
       </div>
 
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fAssignee"
+        >
           Assign to
         </label>
 
@@ -297,23 +579,29 @@ function openForm(type) {
           class="input select"
         >
 
-          ${getData().members
-            .map(
-              m => `
-                <option>
-                  ${safe(m.name)}
-                </option>
-              `
-            )
-            .join("")}
+          ${
+            data.members
+              .map(
+                member => `
+                  <option>
+                    ${safe(member.name)}
+                  </option>
+                `
+              )
+              .join("")
+          }
 
         </select>
 
       </div>
 
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fDate"
+        >
           Due date
         </label>
 
@@ -324,12 +612,18 @@ function openForm(type) {
         >
 
       </div>
+
     `,
 
+
     shopping: `
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fTitle"
+        >
           What does the household need?
         </label>
 
@@ -341,9 +635,13 @@ function openForm(type) {
 
       </div>
 
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fQty"
+        >
           Quantity
         </label>
 
@@ -355,9 +653,13 @@ function openForm(type) {
 
       </div>
 
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fCategory"
+        >
           Category
         </label>
 
@@ -366,20 +668,37 @@ function openForm(type) {
           class="input select"
         >
 
-          <option>Groceries</option>
-          <option>Household</option>
-          <option>Pet</option>
-          <option>Other</option>
+          <option>
+            Groceries
+          </option>
+
+          <option>
+            Household
+          </option>
+
+          <option>
+            Pet
+          </option>
+
+          <option>
+            Other
+          </option>
 
         </select>
 
       </div>
+
     `,
 
+
     event: `
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fTitle"
+        >
           Event name
         </label>
 
@@ -391,9 +710,13 @@ function openForm(type) {
 
       </div>
 
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fDate"
+        >
           Date
         </label>
 
@@ -405,9 +728,13 @@ function openForm(type) {
 
       </div>
 
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fTime"
+        >
           Time
         </label>
 
@@ -418,12 +745,18 @@ function openForm(type) {
         >
 
       </div>
+
     `,
 
+
     expense: `
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fTitle"
+        >
           What is it?
         </label>
 
@@ -435,9 +768,13 @@ function openForm(type) {
 
       </div>
 
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fAmount"
+        >
           Amount
         </label>
 
@@ -446,14 +783,19 @@ function openForm(type) {
           class="input"
           type="number"
           step="0.01"
+          min="0"
           placeholder="0.00"
         >
 
       </div>
 
+
       <div class="field">
 
-        <label class="label">
+        <label
+          class="label"
+          for="fDate"
+        >
           Due date
         </label>
 
@@ -464,17 +806,35 @@ function openForm(type) {
         >
 
       </div>
+
     `
 
   }[type];
 
-  document.getElementById(
-    "modalRoot"
-  ).innerHTML = `
+
+  if (!body) {
+    return;
+  }
+
+
+  const root =
+    document.getElementById(
+      "modalRoot"
+    );
+
+  if (!root) {
+    return;
+  }
+
+
+  root.innerHTML = `
 
     <div
       class="modal-backdrop"
-      onclick="if(event.target===this)closeModal()"
+      onclick="
+        if(event.target === this)
+          closeModal()
+      "
     >
 
       <div class="modal">
@@ -488,13 +848,16 @@ function openForm(type) {
           <button
             class="close"
             onclick="closeModal()"
+            aria-label="Close"
           >
             ×
           </button>
 
         </div>
 
+
         ${body}
+
 
         <div
           style="
@@ -512,6 +875,7 @@ function openForm(type) {
             Cancel
           </button>
 
+
           <button
             class="button primary"
             style="flex:1"
@@ -526,16 +890,31 @@ function openForm(type) {
 
     </div>
   `;
+
 }
+
+
+/* =========================================================
+   FORM SUBMISSION
+========================================================= */
 
 function submitForm(type) {
 
-  const d = getData();
+  const data =
+    getData();
 
-  const title =
+
+  const titleElement =
     document.getElementById(
       "fTitle"
-    )?.value.trim();
+    );
+
+
+  const title =
+    titleElement
+      ?.value
+      .trim();
+
 
   if (!title) {
 
@@ -543,270 +922,524 @@ function submitForm(type) {
       "Please add a name first."
     );
 
+    titleElement?.focus();
+
     return;
   }
 
+
   if (type === "task") {
 
-    d.tasks.unshift({
+    data.tasks.unshift({
+
       id: uid(),
+
       title,
+
       assignee:
         document.getElementById(
           "fAssignee"
         )?.value || "You",
+
       date:
         document.getElementById(
           "fDate"
         )?.value || "",
+
       done: false
+
     });
 
   }
 
+
   if (type === "shopping") {
 
-    d.shopping.unshift({
+    data.shopping.unshift({
+
       id: uid(),
+
       title,
+
       qty:
         document.getElementById(
           "fQty"
         )?.value || "1",
+
       category:
         document.getElementById(
           "fCategory"
         )?.value || "Other",
+
       bought: false
+
     });
 
   }
 
+
   if (type === "event") {
 
-    d.events.unshift({
+    data.events.unshift({
+
       id: uid(),
+
       title,
+
       date:
         document.getElementById(
           "fDate"
         )?.value || "",
+
       time:
         document.getElementById(
           "fTime"
         )?.value || ""
+
     });
 
   }
 
+
   if (type === "expense") {
 
-    d.expenses.unshift({
+    data.expenses.unshift({
+
       id: uid(),
+
       title,
+
       amount:
         document.getElementById(
           "fAmount"
         )?.value || "0",
+
       date:
         document.getElementById(
           "fDate"
         )?.value || ""
+
     });
 
   }
 
-  saveData(d);
+
+  saveData(data);
 
   closeModal();
 
-  location.reload();
+  window.location.reload();
+
 }
+
+
+/* =========================================================
+   TASKS
+========================================================= */
 
 function toggleTask(id) {
 
-  const d = getData();
+  const data =
+    getData();
 
-  const x = d.tasks.find(
-    v => v.id === id
-  );
 
-  if (x) {
-    x.done = !x.done;
+  const task =
+    data.tasks.find(
+      item => item.id === id
+    );
+
+
+  if (!task) {
+    return;
   }
 
-  saveData(d);
 
-  location.reload();
+  task.done =
+    !task.done;
+
+
+  saveData(data);
+
+  window.location.reload();
+
 }
+
 
 function deleteTask(id) {
 
-  const d = getData();
-
-  d.tasks =
-    d.tasks.filter(
-      v => v.id !== id
+  const confirmed =
+    window.confirm(
+      "Delete this task?"
     );
 
-  saveData(d);
 
-  location.reload();
+  if (!confirmed) {
+    return;
+  }
+
+
+  const data =
+    getData();
+
+
+  data.tasks =
+    data.tasks.filter(
+      item => item.id !== id
+    );
+
+
+  saveData(data);
+
+  window.location.reload();
+
 }
+
+
+/* =========================================================
+   SHOPPING
+========================================================= */
 
 function toggleShop(id) {
 
-  const d = getData();
+  const data =
+    getData();
 
-  const x = d.shopping.find(
-    v => v.id === id
-  );
 
-  if (x) {
-    x.bought = !x.bought;
+  const item =
+    data.shopping.find(
+      entry => entry.id === id
+    );
+
+
+  if (!item) {
+    return;
   }
 
-  saveData(d);
 
-  location.reload();
+  item.bought =
+    !item.bought;
+
+
+  saveData(data);
+
+  window.location.reload();
+
 }
+
 
 function deleteShop(id) {
 
-  const d = getData();
-
-  d.shopping =
-    d.shopping.filter(
-      v => v.id !== id
+  const confirmed =
+    window.confirm(
+      "Delete this shopping item?"
     );
 
-  saveData(d);
 
-  location.reload();
+  if (!confirmed) {
+    return;
+  }
+
+
+  const data =
+    getData();
+
+
+  data.shopping =
+    data.shopping.filter(
+      item => item.id !== id
+    );
+
+
+  saveData(data);
+
+  window.location.reload();
+
 }
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
 
 function deleteEvent(id) {
 
-  const d = getData();
-
-  d.events =
-    d.events.filter(
-      v => v.id !== id
+  const confirmed =
+    window.confirm(
+      "Delete this event?"
     );
 
-  saveData(d);
 
-  location.reload();
+  if (!confirmed) {
+    return;
+  }
+
+
+  const data =
+    getData();
+
+
+  data.events =
+    data.events.filter(
+      item => item.id !== id
+    );
+
+
+  saveData(data);
+
+  window.location.reload();
+
 }
+
+
+/* =========================================================
+   EXPENSES
+========================================================= */
 
 function deleteExpense(id) {
 
-  const d = getData();
-
-  d.expenses =
-    d.expenses.filter(
-      v => v.id !== id
+  const confirmed =
+    window.confirm(
+      "Delete this expense?"
     );
 
-  saveData(d);
 
-  location.reload();
+  if (!confirmed) {
+    return;
+  }
+
+
+  const data =
+    getData();
+
+
+  data.expenses =
+    data.expenses.filter(
+      item => item.id !== id
+    );
+
+
+  saveData(data);
+
+  window.location.reload();
+
 }
+
+
+/* =========================================================
+   HOME INFORMATION
+========================================================= */
 
 function deleteHomeInfo(id) {
 
-  const d = getData();
-
-  d.homeInfo =
-    d.homeInfo.filter(
-      v => v.id !== id
+  const confirmed =
+    window.confirm(
+      "Delete this information?"
     );
 
-  saveData(d);
 
-  location.reload();
+  if (!confirmed) {
+    return;
+  }
+
+
+  const data =
+    getData();
+
+
+  data.homeInfo =
+    data.homeInfo.filter(
+      item => item.id !== id
+    );
+
+
+  saveData(data);
+
+  window.location.reload();
+
 }
+
+
+/* =========================================================
+   HOUSEHOLD
+========================================================= */
+
+function renameHousehold() {
+
+  const data =
+    getData();
+
+
+  const name =
+    window.prompt(
+      "Household name",
+      data.household.name
+    );
+
+
+  if (!name?.trim()) {
+    return;
+  }
+
+
+  data.household.name =
+    name.trim();
+
+
+  saveData(data);
+
+  window.location.reload();
+
+}
+
 
 function copyInvite() {
 
   const code =
-    getData().household.inviteCode;
+    getData()
+      .household
+      .inviteCode;
 
-  navigator.clipboard
-    ?.writeText(code);
 
-  alert(
-    "Invite code copied: " + code
+  if (
+    navigator.clipboard &&
+    window.isSecureContext
+  ) {
+
+    navigator.clipboard.writeText(
+      code
+    );
+
+    alert(
+      "Invite code copied: " +
+      code
+    );
+
+    return;
+  }
+
+
+  const helper =
+    document.createElement(
+      "textarea"
+    );
+
+  helper.value =
+    code;
+
+  helper.style.position =
+    "fixed";
+
+  helper.style.opacity =
+    "0";
+
+  document.body.appendChild(
+    helper
   );
+
+  helper.select();
+
+  try {
+
+    document.execCommand(
+      "copy"
+    );
+
+    alert(
+      "Invite code copied: " +
+      code
+    );
+
+  } catch {
+
+    alert(
+      "Your invite code is: " +
+      code
+    );
+
+  }
+
+  helper.remove();
+
 }
+
 
 function addMember() {
 
   const name =
-    prompt(
+    window.prompt(
       "Household member name"
     );
 
-  if (!name?.trim()) {
-    return;
-  }
-
-  const d = getData();
-
-  const n = name.trim();
-
-  d.members.push({
-    id: uid(),
-    name: n,
-    role: "Member",
-    initials: n
-      .split(/\s+/)
-      .map(x => x[0])
-      .slice(0, 2)
-      .join("")
-      .toUpperCase()
-  });
-
-  saveData(d);
-
-  location.reload();
-}
-
-function renameHousehold() {
-
-  const d = getData();
-
-  const name =
-    prompt(
-      "Household name",
-      d.household.name
-    );
 
   if (!name?.trim()) {
     return;
   }
 
-  d.household.name =
+
+  const data =
+    getData();
+
+
+  const cleanName =
     name.trim();
 
-  saveData(d);
 
-  location.reload();
+  data.members.push({
+
+    id: uid(),
+
+    name: cleanName,
+
+    role: "Member",
+
+    initials:
+      getInitials(
+        cleanName
+      )
+
+  });
+
+
+  saveData(data);
+
+  window.location.reload();
+
 }
+
+
+/* =========================================================
+   RESET HOUSEHOLD DATA
+========================================================= */
 
 function resetApp() {
 
-  if (
-    confirm(
-      "Clear all locally saved household data?"
-    )
-  ) {
+  const confirmed =
+    window.confirm(
+      "Clear all locally saved household data? This cannot be undone."
+    );
 
-    localStorage.removeItem(KEY);
 
-    location.href =
-      "index.html";
+  if (!confirmed) {
+    return;
   }
+
+
+  localStorage.removeItem(
+    KEY
+  );
+
+
+  window.location.replace(
+    "index.html"
+  );
+
 }
+
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+requireLogin();
 
 setHeader();
