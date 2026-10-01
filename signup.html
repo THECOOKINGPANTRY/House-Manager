@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Create Account · Home Manager</title>
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
+</head>
+
+<body>
+
+  <div class="login-shell">
+
+    <div class="login-card">
+
+      <div class="login-brand">
+
+        <div class="login-logo">
+
+          <img
+            src="House_Manager_Logo.png"
+            alt="Home Manager logo"
+          >
+
+        </div>
+
+        <div class="login-brand-name">
+          HOME MANAGER
+        </div>
+
+      </div>
+
+
+      <div class="login-heading">
+
+        <div class="login-kicker">
+          Get started
+        </div>
+
+        <h1>
+          Create your account
+        </h1>
+
+        <p>
+          Set up your account and start organising your household.
+        </p>
+
+      </div>
+
+
+      <form
+        class="login-form"
+        onsubmit="handleSignup(event)"
+      >
+
+        <div class="field">
+
+          <label
+            class="label"
+            for="fullName"
+          >
+            Full name
+          </label>
+
+          <input
+            id="fullName"
+            class="input"
+            type="text"
+            autocomplete="name"
+            placeholder="Your name"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="label"
+            for="email"
+          >
+            Email address
+          </label>
+
+          <input
+            id="email"
+            class="input"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="label"
+            for="password"
+          >
+            Password
+          </label>
+
+          <div class="password-wrap">
+
+            <input
+              id="password"
+              class="input"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Create a password"
+              required
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              onclick="toggleSignupPassword()"
+            >
+              Show
+            </button>
+
+          </div>
+
+          <div class="password-help">
+            Use at least 8 characters.
+          </div>
+
+        </div>
+
+
+        <div class="field">
+
+          <label
+            class="label"
+            for="confirmPassword"
+          >
+            Confirm password
+          </label>
+
+          <input
+            id="confirmPassword"
+            class="input"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Enter your password again"
+            required
+          >
+
+        </div>
+
+
+        <label class="remember-row signup-terms">
+
+          <input
+            id="terms"
+            type="checkbox"
+            required
+          >
+
+          <span>
+            I agree to the Home Manager terms and privacy policy.
+          </span>
+
+        </label>
+
+
+        <button
+          type="submit"
+          class="button primary login-button"
+        >
+          Create account
+        </button>
+
+      </form>
+
+
+      <div
+        id="signupMessage"
+        class="login-message"
+      ></div>
+
+
+      <div class="signup-link">
+
+        <span>
+          Already have an account?
+        </span>
+
+        <button
+          type="button"
+          onclick="location.href='login.html'"
+        >
+          Sign in
+        </button>
+
+      </div>
+
+
+      <div class="login-footer">
+        Home Manager
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script src="app.js"></script>
+
+
+  <script>
+
+    function toggleSignupPassword() {
+
+      const password =
+        document.getElementById("password");
+
+      const button =
+        document.querySelector(".password-toggle");
+
+      const showing =
+        password.type === "text";
+
+      password.type =
+        showing
+          ? "password"
+          : "text";
+
+      button.textContent =
+        showing
+          ? "Show"
+          : "Hide";
+    }
+
+
+    function handleSignup(event) {
+
+      event.preventDefault();
+
+      const name =
+        document
+          .getElementById("fullName")
+          .value
+          .trim();
+
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("password")
+          .value;
+
+      const confirmPassword =
+        document
+          .getElementById("confirmPassword")
+          .value;
+
+      if (password.length < 8) {
+
+        showSignupMessage(
+          "Your password needs to be at least 8 characters."
+        );
+
+        return;
+      }
+
+
+      if (password !== confirmPassword) {
+
+        showSignupMessage(
+          "Your passwords do not match."
+        );
+
+        return;
+      }
+
+
+      if (!document.getElementById("terms").checked) {
+
+        showSignupMessage(
+          "Please accept the terms and privacy policy."
+        );
+
+        return;
+      }
+
+
+      localStorage.setItem(
+        "home-manager-logged-in",
+        "true"
+      );
+
+      localStorage.setItem(
+        "home-manager-user-name",
+        name
+      );
+
+      localStorage.setItem(
+        "home-manager-user-email",
+        email
+      );
+
+
+      const data = getData();
+
+      data.members = [
+        {
+          id: "me",
+          name: name,
+          role: "Admin",
+          initials: getInitials(name)
+        }
+      ];
+
+
+      saveData(data);
+
+
+      location.href =
+        "setup-household.html";
+    }
+
+
+    function getInitials(name) {
+
+      return name
+        .split(/\s+/)
+        .filter(Boolean)
+        .map(word => word[0])
+        .slice(0, 2)
+        .join("")
+        .toUpperCase();
+    }
+
+
+    function showSignupMessage(text) {
+
+      const message =
+        document.getElementById(
+          "signupMessage"
+        );
+
+      message.textContent =
+        text;
+
+      message.classList.add(
+        "visible"
+      );
+    }
+
+  </script>
+
+</body>
+
+</html>
