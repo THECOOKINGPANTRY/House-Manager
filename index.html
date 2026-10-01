@@ -8,6 +8,17 @@
 </head>
 
 <body>
+  <script>
+
+  if (
+    localStorage.getItem(
+      "home-manager-logged-in"
+    ) !== "true"
+  ) {
+    location.replace("login.html");
+  }
+
+</script>
   <div class="app-shell">
     <div class="phone">
 
