@@ -95,14 +95,18 @@ a {
   height: 42px;
   border-radius: 14px;
   background: var(--yellow);
-  display: grid;
-  place-items: center;
-  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .brand-mark img {
-  width: 30px;
-  height: 30px;
+  width: 30px !important;
+  height: 30px !important;
+  max-width: 30px !important;
+  max-height: 30px !important;
   object-fit: contain;
   display: block;
 }
