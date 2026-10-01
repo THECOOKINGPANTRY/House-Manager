@@ -1,1 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Money · Home Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
+<body>
+
+  <div class="app-shell">
+    <div class="phone">
+
+      <div class="topbar">
+        <div class="topbar-row">
+
+          <a class="brand" href="index.html">
+
+            <div class="brand-mark">
+              <svg viewBox="0 0 64 64">
+                <path fill="#242423" d="M13 25 32 10l19 15h-8L32 16l-11 9z"/>
+                <rect x="19" y="37" width="7" height="20" rx="2.5" fill="#242423"/>
+                <rect x="38" y="37" width="7" height="20" rx="2.5" fill="#242423"/>
+                <rect x="22" y="44" width="20" height="6" rx="2.5" fill="#242423"/>
+              </svg>
+            </div>
+
+            <div>
+              <div class="brand-name">HOME MANAGER</div>
+              <div class="brand-sub" id="houseNameHeader">My Household</div>
+            </div>
+
+          </a>
+
+          <button
+            class="header-action"
+            onclick="location.href='settings.html'"
+          >
+            ⚙
+          </button>
+
+        </div>
+      </div>
+
+      <div class="scroll">
+
+        <div class="kicker">Household</div>
+
+        <h1>Money</h1>
+
+        <p>Shared bills and household expenses.</p>
+
+        <div class="hero">
+
+          <div class="hero-pill">
+            Monthly overview
+          </div>
+
+          <div
+            id="total"
+            style="font-size:30px;font-weight:900;color:var(--dark)"
+          >
+            $0.00
+          </div>
+
+          <p>
+            Recorded household expenses
+          </p>
+
+        </div>
+
+        <div class="toolbar">
+
+          <div class="kicker">Expenses</div>
+
+          <button
+            class="button primary small-button"
+            onclick="openForm('expense')"
+          >
+            + Add expense
+          </button>
+
+        </div>
+
+        <div id="list"></div>
+
+      </div>
+
+      <div class="bottom">
+
+        <button class="fab" onclick="openAdd()">+</button>
+
+        <a class="nav" href="index.html">
+          <span class="nav-icon">⌂</span>
+          Home
+        </a>
+
+        <a class="nav" href="tasks.html">
+          <span class="nav-icon">✓</span>
+          Tasks
+        </a>
+
+        <a class="nav" href="shopping.html">
+          <span class="nav-icon">🛒</span>
+          Shop
+        </a>
+
+        <a class="nav active" href="more.html">
+          <span class="nav-icon">•••</span>
+          More
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="modalRoot"></div>
+
+  <script src="app.js"></script>
+
+  <script>
+    const d = getData();
+
+    const total = d.expenses.reduce(
+      (a, x) => a + Number(x.amount || 0),
+      0
+    );
+
+    document.getElementById("total").textContent =
+      "$" + total.toFixed(2);
+
+    document.getElementById("list").innerHTML =
+      d.expenses.length
+        ? d.expenses.map(x => `
+          <div class="list-item">
+
+            <div class="iconbox" style="margin:0">
+              $
+            </div>
+
+            <div class="list-content">
+
+              <div class="list-title">
+                ${safe(x.title)}
+              </div>
+
+              <div class="list-meta">
+                ${x.date ? fmtDate(x.date) : "No due date"}
+              </div>
+
+            </div>
+
+            <div style="font-weight:850;color:var(--dark)">
+              $${Number(x.amount || 0).toFixed(2)}
+            </div>
+
+            <button
+              class="icon-button"
+              onclick="deleteExpense('${x.id}')"
+            >
+              ×
+            </button>
+
+          </div>
+        `).join("")
+        : emptyState(
+            "$",
+            "Nothing added yet",
+            "Track household bills and shared expenses here.",
+            "Add an expense",
+            "openForm('expense')"
+          );
+  </script>
+
+</body>
+</html>
