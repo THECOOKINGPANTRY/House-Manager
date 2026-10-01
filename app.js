@@ -1,779 +1,812 @@
-:root {
-  --yellow: #F5CB5C;
-  --light: #E8EDDF;
-  --muted: #CFDBD5;
-  --dark: #242423;
-  --charcoal: #333533;
-  --surface: #F6F7F1;
-  --surface-2: #EEF1E9;
-  --border: rgba(36,36,35,.10);
-  --danger: #A94B43;
-  --shadow: 0 18px 45px rgba(36,36,35,.10);
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  background: var(--light);
-}
-
-body {
-  margin: 0;
-  min-width: 320px;
-  background: var(--light);
-  color: var(--charcoal);
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.app-shell {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding: 24px;
-}
-
-.phone {
-  width: min(100%, 430px);
-  min-height: calc(100vh - 48px);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 32px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.topbar {
-  padding: 18px 18px 10px;
-  background: var(--surface);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.topbar-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand-mark {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  background: var(--yellow);
-  display: grid;
-  place-items: center;
-  flex: none;
-}
-
-.brand-mark svg {
-  width: 28px;
-  height: 28px;
-  display: block;
-}
-
-.brand-name {
-  font-weight: 850;
-  font-size: 15px;
-  letter-spacing: -.04em;
-  color: var(--dark);
-  line-height: 1;
-}
-
-.brand-sub {
-  font-size: 11px;
-  margin-top: 4px;
-  color: #686e68;
-}
-
-.header-action {
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--border);
-  background: var(--surface-2);
-  border-radius: 12px;
-  color: var(--dark);
-  display: grid;
-  place-items: center;
-}
-
-.scroll {
-  flex: 1;
-  overflow: auto;
-  padding: 8px 18px 96px;
-  scrollbar-width: none;
-}
-
-.scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.kicker {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .11em;
-  text-transform: uppercase;
-  color: #6a706a;
-}
-
-h1 {
-  font-size: 28px;
-  letter-spacing: -.055em;
-  margin: 9px 0 4px;
-  color: var(--dark);
-  line-height: 1.02;
-}
-
-h2 {
-  font-size: 18px;
-  letter-spacing: -.03em;
-  color: var(--dark);
-  margin: 0 0 5px;
-}
-
-p {
-  margin: 0;
-  color: #6a706a;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.hero {
-  margin-top: 18px;
-  background: var(--yellow);
-  border-radius: 24px;
-  padding: 20px;
-}
-
-.hero h2 {
-  font-size: 22px;
-}
-
-.hero p {
-  color: rgba(36,36,35,.72);
-  margin-top: 6px;
-}
-
-.hero-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(255,255,255,.18);
-  padding: 7px 10px;
-  border-radius: 999px;
-  font-size: 10px;
-  font-weight: 800;
-  margin-bottom: 14px;
-  color: var(--dark);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.card {
-  background: var(--surface-2);
-  border: 1px solid rgba(36,36,35,.05);
-  border-radius: 20px;
-  padding: 16px;
-}
-
-.card.click {
-  transition:
-    transform .16s ease,
-    background .16s ease;
-}
-
-.card.click:hover {
-  transform: translateY(-1px);
-  background: var(--muted);
-}
-
-.iconbox {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: var(--light);
-  display: grid;
-  place-items: center;
-  color: var(--dark);
-  font-size: 18px;
-  margin-bottom: 12px;
-}
-
-.metric {
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--dark);
-}
-
-.submetric {
-  font-size: 10px;
-  color: #70766f;
-  margin-top: 4px;
-}
-
-.empty {
-  margin-top: 14px;
-  background: var(--muted);
-  border-radius: 24px;
-  padding: 28px 20px;
-}
-
-.empty-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 17px;
-  background: rgba(245,203,92,.86);
-  display: grid;
-  place-items: center;
-  color: var(--dark);
-  font-size: 22px;
-  margin-bottom: 15px;
-}
-
-.empty h2 {
-  font-size: 18px;
-}
-
-.empty p {
-  max-width: 280px;
-}
-
-.button {
-  border: 0;
-  border-radius: 14px;
-  height: 44px;
-  padding: 0 16px;
-  font-size: 13px;
-  font-weight: 800;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.primary {
-  background: var(--yellow);
-  color: var(--dark);
-}
-
-.secondary {
-  background: var(--muted);
-  color: var(--dark);
-}
-
-.outline {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--dark);
-}
-
-.danger {
-  background: rgba(169,75,67,.10);
-  color: var(--danger);
-}
-
-.full {
-  width: 100%;
-}
-
-.toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 18px 0 14px;
-}
-
-.toolbar-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.small-button {
-  height: 38px;
-  padding: 0 12px;
-  border-radius: 12px;
-  font-size: 12px;
-}
-
-.list {
-  display: grid;
-  gap: 9px;
-}
-
-.list-item {
-  background: var(--surface-2);
-  border: 1px solid rgba(36,36,35,.06);
-  border-radius: 18px;
-  padding: 14px;
-  display: flex;
-  gap: 11px;
-  align-items: flex-start;
-}
-
-.list-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.list-title {
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--dark);
-  line-height: 1.35;
-}
-
-.list-meta {
-  font-size: 11px;
-  color: #6a706a;
-  margin-top: 4px;
-}
-
-.check {
-  width: 24px;
-  height: 24px;
-  border-radius: 8px;
-  border: 1.5px solid rgba(36,36,35,.20);
-  display: grid;
-  place-items: center;
-  background: var(--surface);
-  color: var(--dark);
-  flex: none;
-}
-
-.check.done {
-  background: var(--yellow);
-  border-color: var(--yellow);
-}
-
-.done-text {
-  text-decoration: line-through;
-  opacity: .5;
-}
-
-.right-actions {
-  display: flex;
-  gap: 4px;
-}
-
-.icon-button {
-  border: 0;
-  background: transparent;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  display: grid;
-  place-items: center;
-  color: #626862;
-}
-
-.icon-button:hover {
-  background: rgba(36,36,35,.06);
-  color: var(--dark);
-}
-
-.members {
-  display: grid;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.member {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  background: var(--surface-2);
-  padding: 12px 13px;
-  border-radius: 16px;
-}
-
-.avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: var(--yellow);
-  display: grid;
-  place-items: center;
-  font-size: 12px;
-  font-weight: 850;
-  color: var(--dark);
-}
-
-.member-main {
-  flex: 1;
-}
-
-.member-name {
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--dark);
-}
-
-.member-role {
-  font-size: 11px;
-  color: #70766f;
-  margin-top: 2px;
-}
-
-.section {
-  background: var(--surface-2);
-  border: 1px solid rgba(36,36,35,.06);
-  border-radius: 20px;
-  padding: 16px;
-  margin-top: 12px;
-}
-
-.section-title {
-  font-size: 13px;
-  font-weight: 850;
-  color: var(--dark);
-  margin-bottom: 12px;
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px 0;
-}
-
-.row + .row {
-  border-top: 1px solid rgba(36,36,35,.06);
-}
-
-.input {
-  width: 100%;
-  height: 46px;
-  border: 1px solid rgba(36,36,35,.12);
-  background: var(--surface);
-  border-radius: 14px;
-  padding: 0 13px;
-  outline: 0;
-  color: var(--dark);
-}
-
-.input:focus {
-  border-color: var(--dark);
-}
-
-.textarea {
-  width: 100%;
-  min-height: 90px;
-  border: 1px solid rgba(36,36,35,.12);
-  background: var(--surface);
-  border-radius: 14px;
-  padding: 12px 13px;
-  resize: vertical;
-  outline: 0;
-}
-
-.field {
-  display: grid;
-  gap: 7px;
-  margin-bottom: 13px;
-}
-
-.label {
-  font-size: 11px;
-  font-weight: 800;
-  color: #6a706a;
-}
-
-.select {
-  appearance: none;
-}
-
-.bottom {
-  position: sticky;
-  bottom: 0;
-  background: rgba(246,247,241,.96);
-  backdrop-filter: blur(14px);
-  border-top: 1px solid rgba(36,36,35,.07);
-  padding: 8px 9px 11px;
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  z-index: 12;
-}
-
-.nav {
-  border: 0;
-  background: transparent;
-  border-radius: 13px;
-  padding: 5px 2px 3px;
-  color: #70766f;
-  font-size: 10px;
-  font-weight: 750;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.nav.active {
-  color: var(--dark);
-}
-
-.nav-icon {
-  width: 34px;
-  height: 27px;
-  border-radius: 10px;
-  display: grid;
-  place-items: center;
-  font-size: 17px;
-}
-
-.nav.active .nav-icon {
-  background: var(--yellow);
-}
-
-.fab {
-  position: absolute;
-  right: 16px;
-  top: -27px;
-  width: 54px;
-  height: 54px;
-  border-radius: 18px;
-  background: var(--dark);
-  color: var(--yellow);
-  border: 0;
-  box-shadow: 0 10px 22px rgba(36,36,35,.20);
-  font-size: 21px;
-}
-
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(36,36,35,.38);
-  display: grid;
-  place-items: end center;
-  padding: 16px;
-  z-index: 50;
-}
-
-.modal {
-  width: min(100%,430px);
-  background: var(--surface);
-  border-radius: 26px;
-  padding: 18px;
-  box-shadow: 0 25px 70px rgba(36,36,35,.24);
-  max-height: 90vh;
-  overflow: auto;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.modal-title {
-  font-size: 19px;
-  font-weight: 850;
-  letter-spacing: -.03em;
-  color: var(--dark);
-}
-
-.close {
-  border: 0;
-  background: var(--surface-2);
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  display: grid;
-  place-items: center;
-  color: var(--dark);
-}
-
-.quick-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 9px;
-}
-
-.quick {
-  background: var(--surface-2);
-  border: 0;
-  border-radius: 17px;
-  padding: 15px;
-  text-align: left;
-}
-
-.quick-icon {
-  width: 37px;
-  height: 37px;
-  border-radius: 12px;
-  background: var(--light);
-  display: grid;
-  place-items: center;
-  margin-bottom: 11px;
-}
-
-.quick-title {
-  font-size: 12px;
-  font-weight: 850;
-  color: var(--dark);
-}
-
-.quick-sub {
-  font-size: 10px;
-  color: #70766f;
-  margin-top: 3px;
-}
-
-.calendar {
-  margin-top: 14px;
-  background: var(--surface-2);
-  border-radius: 22px;
-  padding: 16px;
-}
-
-.calendar-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 13px;
-  font-weight: 850;
-  color: var(--dark);
-  margin-bottom: 13px;
-}
-
-.week {
-  display: grid;
-  grid-template-columns: repeat(7,1fr);
-  gap: 5px;
-}
-
-.dayname {
-  text-align: center;
-  font-size: 9px;
-  color: #7a8079;
-  font-weight: 800;
-  padding-bottom: 4px;
-}
-
-.day {
-  aspect-ratio: 1;
-  border: 0;
-  border-radius: 10px;
-  background: transparent;
-  color: var(--charcoal);
-  font-size: 11px;
-}
-
-.day.today {
-  background: var(--yellow);
-  font-weight: 900;
-}
-
-.day.blank {
-  visibility: hidden;
-}
-
-.splash {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-}
-
-.splash-card {
-  width: min(100%,430px);
-  background: var(--surface);
-  border-radius: 32px;
-  padding: 30px 24px;
-  box-shadow: var(--shadow);
-  text-align: center;
-}
-
-.splash-mark {
-  width: 78px;
-  height: 78px;
-  border-radius: 25px;
-  background: var(--yellow);
-  display: grid;
-  place-items: center;
-  margin: 0 auto 20px;
-}
-
-.splash-mark svg {
-  width: 52px;
-  height: 52px;
-}
-
-.splash-title {
-  font-size: 34px;
-  letter-spacing: -.06em;
-  font-weight: 900;
-  color: var(--dark);
-}
-
-.splash-copy {
-  margin: 8px auto 24px;
-  max-width: 310px;
-}
-
-.stack {
-  display: grid;
-  gap: 10px;
-}
-
-@media (max-width:700px) {
-
-  .app-shell {
-    padding: 0;
+const KEY = "home-manager-v1";
+
+const defaultData = {
+  household: {
+    name: "My Household",
+    inviteCode: "HOME-4821"
+  },
+
+  members: [
+    {
+      id: "me",
+      name: "You",
+      role: "Admin",
+      initials: "Y"
+    }
+  ],
+
+  tasks: [],
+  shopping: [],
+  events: [],
+  expenses: [],
+  homeInfo: []
+};
+
+function getData() {
+  try {
+    return (
+      JSON.parse(localStorage.getItem(KEY)) ||
+      structuredClone(defaultData)
+    );
+  } catch {
+    return structuredClone(defaultData);
+  }
+}
+
+function saveData(data) {
+  localStorage.setItem(
+    KEY,
+    JSON.stringify(data)
+  );
+}
+
+function uid() {
+  return (
+    `${Date.now()}-` +
+    Math.random()
+      .toString(36)
+      .slice(2)
+  );
+}
+
+function safe(value) {
+  return String(value ?? "").replace(
+    /[&<>'"]/g,
+    c => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "'": "&#39;",
+      '"': "&quot;"
+    }[c])
+  );
+}
+
+function fmtDate(value) {
+
+  if (!value) {
+    return "No date";
   }
 
-  .phone {
-    width: 100%;
-    min-height: 100vh;
-    border-radius: 0;
-    border: 0;
-    box-shadow: none;
-  }
+  const date = new Date(
+    value + (/T/.test(value) ? "" : "T12:00:00")
+  );
 
-  .topbar {
-    padding-top: 18px;
-  }
-
+  return date.toLocaleDateString(
+    undefined,
+    {
+      day: "numeric",
+      month: "short",
+      year: "numeric"
+    }
+  );
 }
+
+function setHeader() {
+
+  const element =
+    document.getElementById(
+      "houseNameHeader"
+    );
+
+  if (!element) return;
+
+  element.textContent =
+    getData().household.name;
+}
+
+function emptyState(
+  iconChar,
+  title,
+  copy,
+  buttonText,
+  handler
+) {
+
+  return `
+    <div class="empty">
+
+      <div class="empty-icon">
+        ${iconChar}
+      </div>
+
+      <h2>
+        ${title}
+      </h2>
+
+      <p>
+        ${copy}
+      </p>
+
+      ${
+        buttonText
+          ? `
+            <div style="margin-top:18px">
+
+              <button
+                class="button primary"
+                onclick="${handler || "openAdd()"}"
+              >
+                ${buttonText}
+              </button>
+
+            </div>
+          `
+          : ""
+      }
+
+    </div>
+  `;
+}
+
+function openAdd() {
+
+  document.getElementById(
+    "modalRoot"
+  ).innerHTML = `
+
+    <div
+      class="modal-backdrop"
+      onclick="if(event.target===this)closeModal()"
+    >
+
+      <div class="modal">
+
+        <div class="modal-header">
+
+          <div class="modal-title">
+            Add to your household
+          </div>
+
+          <button
+            class="close"
+            onclick="closeModal()"
+          >
+            ×
+          </button>
+
+        </div>
+
+        <div class="quick-grid">
+
+          <button
+            class="quick"
+            onclick="openForm('task')"
+          >
+
+            <div class="quick-icon">
+              ✓
+            </div>
+
+            <div class="quick-title">
+              Task
+            </div>
+
+            <div class="quick-sub">
+              Something that needs doing
+            </div>
+
+          </button>
+
+          <button
+            class="quick"
+            onclick="openForm('shopping')"
+          >
+
+            <div class="quick-icon">
+              🛒
+            </div>
+
+            <div class="quick-title">
+              Shopping item
+            </div>
+
+            <div class="quick-sub">
+              Something the home needs
+            </div>
+
+          </button>
+
+          <button
+            class="quick"
+            onclick="openForm('event')"
+          >
+
+            <div class="quick-icon">
+              ▦
+            </div>
+
+            <div class="quick-title">
+              Event
+            </div>
+
+            <div class="quick-sub">
+              An appointment or plan
+            </div>
+
+          </button>
+
+          <button
+            class="quick"
+            onclick="openForm('expense')"
+          >
+
+            <div class="quick-icon">
+              $
+            </div>
+
+            <div class="quick-title">
+              Expense
+            </div>
+
+            <div class="quick-sub">
+              A bill or shared cost
+            </div>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
+
+function closeModal() {
+
+  document.getElementById(
+    "modalRoot"
+  ).innerHTML = "";
+}
+
+function openForm(type) {
+
+  const titles = {
+    task: "New task",
+    shopping: "Add shopping item",
+    event: "New event",
+    expense: "Add expense"
+  };
+
+  const body = {
+
+    task: `
+      <div class="field">
+
+        <label class="label">
+          What needs doing?
+        </label>
+
+        <input
+          id="fTitle"
+          class="input"
+          placeholder="e.g. Clean the kitchen"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label class="label">
+          Assign to
+        </label>
+
+        <select
+          id="fAssignee"
+          class="input select"
+        >
+
+          ${getData().members
+            .map(
+              m => `
+                <option>
+                  ${safe(m.name)}
+                </option>
+              `
+            )
+            .join("")}
+
+        </select>
+
+      </div>
+
+      <div class="field">
+
+        <label class="label">
+          Due date
+        </label>
+
+        <input
+          id="fDate"
+          class="input"
+          type="date"
+        >
+
+      </div>
+    `,
+
+    shopping: `
+      <div class="field">
+
+        <label class="label">
+          What does the household need?
+        </label>
+
+        <input
+          id="fTitle"
+          class="input"
+          placeholder="e.g. Milk"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label class="label">
+          Quantity
+        </label>
+
+        <input
+          id="fQty"
+          class="input"
+          placeholder="e.g. 2"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label class="label">
+          Category
+        </label>
+
+        <select
+          id="fCategory"
+          class="input select"
+        >
+
+          <option>Groceries</option>
+          <option>Household</option>
+          <option>Pet</option>
+          <option>Other</option>
+
+        </select>
+
+      </div>
+    `,
+
+    event: `
+      <div class="field">
+
+        <label class="label">
+          Event name
+        </label>
+
+        <input
+          id="fTitle"
+          class="input"
+          placeholder="e.g. Dinner at Grandma's"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label class="label">
+          Date
+        </label>
+
+        <input
+          id="fDate"
+          class="input"
+          type="date"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label class="label">
+          Time
+        </label>
+
+        <input
+          id="fTime"
+          class="input"
+          type="time"
+        >
+
+      </div>
+    `,
+
+    expense: `
+      <div class="field">
+
+        <label class="label">
+          What is it?
+        </label>
+
+        <input
+          id="fTitle"
+          class="input"
+          placeholder="e.g. Electricity"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label class="label">
+          Amount
+        </label>
+
+        <input
+          id="fAmount"
+          class="input"
+          type="number"
+          step="0.01"
+          placeholder="0.00"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label class="label">
+          Due date
+        </label>
+
+        <input
+          id="fDate"
+          class="input"
+          type="date"
+        >
+
+      </div>
+    `
+
+  }[type];
+
+  document.getElementById(
+    "modalRoot"
+  ).innerHTML = `
+
+    <div
+      class="modal-backdrop"
+      onclick="if(event.target===this)closeModal()"
+    >
+
+      <div class="modal">
+
+        <div class="modal-header">
+
+          <div class="modal-title">
+            ${titles[type]}
+          </div>
+
+          <button
+            class="close"
+            onclick="closeModal()"
+          >
+            ×
+          </button>
+
+        </div>
+
+        ${body}
+
+        <div
+          style="
+            display:flex;
+            gap:8px;
+            margin-top:16px;
+          "
+        >
+
+          <button
+            class="button outline"
+            style="flex:1"
+            onclick="closeModal()"
+          >
+            Cancel
+          </button>
+
+          <button
+            class="button primary"
+            style="flex:1"
+            onclick="submitForm('${type}')"
+          >
+            Add
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
+
+function submitForm(type) {
+
+  const d = getData();
+
+  const title =
+    document.getElementById(
+      "fTitle"
+    )?.value.trim();
+
+  if (!title) {
+
+    alert(
+      "Please add a name first."
+    );
+
+    return;
+  }
+
+  if (type === "task") {
+
+    d.tasks.unshift({
+      id: uid(),
+      title,
+      assignee:
+        document.getElementById(
+          "fAssignee"
+        )?.value || "You",
+      date:
+        document.getElementById(
+          "fDate"
+        )?.value || "",
+      done: false
+    });
+
+  }
+
+  if (type === "shopping") {
+
+    d.shopping.unshift({
+      id: uid(),
+      title,
+      qty:
+        document.getElementById(
+          "fQty"
+        )?.value || "1",
+      category:
+        document.getElementById(
+          "fCategory"
+        )?.value || "Other",
+      bought: false
+    });
+
+  }
+
+  if (type === "event") {
+
+    d.events.unshift({
+      id: uid(),
+      title,
+      date:
+        document.getElementById(
+          "fDate"
+        )?.value || "",
+      time:
+        document.getElementById(
+          "fTime"
+        )?.value || ""
+    });
+
+  }
+
+  if (type === "expense") {
+
+    d.expenses.unshift({
+      id: uid(),
+      title,
+      amount:
+        document.getElementById(
+          "fAmount"
+        )?.value || "0",
+      date:
+        document.getElementById(
+          "fDate"
+        )?.value || ""
+    });
+
+  }
+
+  saveData(d);
+
+  closeModal();
+
+  location.reload();
+}
+
+function toggleTask(id) {
+
+  const d = getData();
+
+  const x = d.tasks.find(
+    v => v.id === id
+  );
+
+  if (x) {
+    x.done = !x.done;
+  }
+
+  saveData(d);
+
+  location.reload();
+}
+
+function deleteTask(id) {
+
+  const d = getData();
+
+  d.tasks =
+    d.tasks.filter(
+      v => v.id !== id
+    );
+
+  saveData(d);
+
+  location.reload();
+}
+
+function toggleShop(id) {
+
+  const d = getData();
+
+  const x = d.shopping.find(
+    v => v.id === id
+  );
+
+  if (x) {
+    x.bought = !x.bought;
+  }
+
+  saveData(d);
+
+  location.reload();
+}
+
+function deleteShop(id) {
+
+  const d = getData();
+
+  d.shopping =
+    d.shopping.filter(
+      v => v.id !== id
+    );
+
+  saveData(d);
+
+  location.reload();
+}
+
+function deleteEvent(id) {
+
+  const d = getData();
+
+  d.events =
+    d.events.filter(
+      v => v.id !== id
+    );
+
+  saveData(d);
+
+  location.reload();
+}
+
+function deleteExpense(id) {
+
+  const d = getData();
+
+  d.expenses =
+    d.expenses.filter(
+      v => v.id !== id
+    );
+
+  saveData(d);
+
+  location.reload();
+}
+
+function deleteHomeInfo(id) {
+
+  const d = getData();
+
+  d.homeInfo =
+    d.homeInfo.filter(
+      v => v.id !== id
+    );
+
+  saveData(d);
+
+  location.reload();
+}
+
+function copyInvite() {
+
+  const code =
+    getData().household.inviteCode;
+
+  navigator.clipboard
+    ?.writeText(code);
+
+  alert(
+    "Invite code copied: " + code
+  );
+}
+
+function addMember() {
+
+  const name =
+    prompt(
+      "Household member name"
+    );
+
+  if (!name?.trim()) {
+    return;
+  }
+
+  const d = getData();
+
+  const n = name.trim();
+
+  d.members.push({
+    id: uid(),
+    name: n,
+    role: "Member",
+    initials: n
+      .split(/\s+/)
+      .map(x => x[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase()
+  });
+
+  saveData(d);
+
+  location.reload();
+}
+
+function renameHousehold() {
+
+  const d = getData();
+
+  const name =
+    prompt(
+      "Household name",
+      d.household.name
+    );
+
+  if (!name?.trim()) {
+    return;
+  }
+
+  d.household.name =
+    name.trim();
+
+  saveData(d);
+
+  location.reload();
+}
+
+function resetApp() {
+
+  if (
+    confirm(
+      "Clear all locally saved household data?"
+    )
+  ) {
+
+    localStorage.removeItem(KEY);
+
+    location.href =
+      "index.html";
+  }
+}
+
+setHeader();
