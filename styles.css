@@ -1048,3 +1048,13 @@ p {
   color: var(--dark);
   margin: 12px 0 18px;
 }
+
+.logout-button {
+  background: transparent;
+  border: 1px solid rgba(169, 75, 67, .28);
+  color: var(--danger);
+}
+
+.logout-button:hover {
+  background: rgba(169, 75, 67, .08);
+}
