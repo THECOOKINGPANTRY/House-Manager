@@ -1,32 +1,61 @@
+```html
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
   <title>Settings · Home Manager</title>
-  <link rel="stylesheet" href="styles.css">
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
 </head>
 
 <body>
 
   <div class="app-shell">
+
     <div class="phone">
 
+      <!-- HEADER -->
       <div class="topbar">
 
         <div class="topbar-row">
 
-          <a class="brand" href="index.html">
+          <a
+            class="brand"
+            href="index.html"
+          >
 
             <div class="brand-mark">
-  <img src="House_Manager_Logo.png" alt="Home Manager logo">
-</div>
+
+              <img
+                src="House_Manager_Logo.png"
+                alt="Home Manager logo"
+              >
+
+            </div>
 
             <div>
-              <div class="brand-name">HOME MANAGER</div>
-              <div class="brand-sub" id="houseNameHeader">
+
+              <div class="brand-name">
+                HOME MANAGER
+              </div>
+
+              <div
+                class="brand-sub"
+                id="houseNameHeader"
+              >
                 My Household
               </div>
+
             </div>
 
           </a>
@@ -35,22 +64,32 @@
 
       </div>
 
+
+      <!-- SCROLLABLE CONTENT -->
       <div class="scroll">
 
-        <div class="kicker">Household</div>
+        <div class="kicker">
+          Household
+        </div>
 
-        <h1>Settings</h1>
+        <h1>
+          Settings
+        </h1>
 
         <p>
           Control your household and prototype preferences.
         </p>
 
+
+        <!-- HOUSEHOLD SETTINGS -->
         <div class="section">
 
           <div class="section-title">
             Household
           </div>
 
+
+          <!-- HOUSEHOLD NAME -->
           <div class="row">
 
             <div>
@@ -62,12 +101,15 @@
               <div
                 class="member-role"
                 id="nameView"
-              ></div>
+              >
+                My Household
+              </div>
 
             </div>
 
             <button
               class="button outline small-button"
+              type="button"
               onclick="renameHousehold()"
             >
               Rename
@@ -75,6 +117,8 @@
 
           </div>
 
+
+          <!-- INVITE CODE -->
           <div class="row">
 
             <div>
@@ -86,12 +130,15 @@
               <div
                 class="member-role"
                 id="codeView"
-              ></div>
+              >
+                HOME-4821
+              </div>
 
             </div>
 
             <button
               class="button outline small-button"
+              type="button"
               onclick="copyInvite()"
             >
               Copy
@@ -101,84 +148,146 @@
 
         </div>
 
+
+        <!-- PROTOTYPE DATA -->
         <div class="section">
 
-  <div class="section-title">
-    Prototype data
-  </div>
+          <div class="section-title">
+            Prototype data
+          </div>
 
-  <p>
-    All test data is stored locally in this browser so the prototype works without a backend.
-  </p>
+          <p>
+            All test data is stored locally in this browser so the prototype works without a backend.
+          </p>
 
-  <div style="margin-top:14px;display:grid;gap:10px">
 
-    <button
-      class="button danger full"
-      onclick="resetApp()"
-    >
-      Clear household data
-    </button>
+          <div
+            style="
+              margin-top: 14px;
+              display: grid;
+              gap: 10px;
+            "
+          >
 
-    <button
-      class="button logout-button full"
-      onclick="confirmLogout()"
-    >
-      Log out
-    </button>
+            <button
+              class="button danger full"
+              type="button"
+              onclick="resetApp()"
+            >
+              Clear household data
+            </button>
 
-  </div>
 
-</div>
+            <button
+              class="button logout-button full"
+              type="button"
+              onclick="confirmLogout()"
+            >
+              Log out
+            </button>
+
+          </div>
 
         </div>
 
       </div>
 
+
+      <!-- BOTTOM NAVIGATION -->
       <div class="bottom">
 
-        <button class="fab" onclick="openAdd()">+</button>
+        <button
+          class="fab"
+          type="button"
+          onclick="openAdd()"
+          aria-label="Add"
+        >
+          +
+        </button>
 
-        <a class="nav" href="index.html">
-          <span class="nav-icon">⌂</span>
+
+        <a
+          class="nav"
+          href="index.html"
+        >
+          <span class="nav-icon">
+            ⌂
+          </span>
+
           Home
         </a>
 
-        <a class="nav" href="tasks.html">
-          <span class="nav-icon">✓</span>
+
+        <a
+          class="nav"
+          href="tasks.html"
+        >
+          <span class="nav-icon">
+            ✓
+          </span>
+
           Tasks
         </a>
 
-        <a class="nav" href="shopping.html">
-          <span class="nav-icon">🛒</span>
+
+        <a
+          class="nav"
+          href="shopping.html"
+        >
+          <span class="nav-icon">
+            🛒
+          </span>
+
           Shop
         </a>
 
-        <a class="nav active" href="more.html">
-          <span class="nav-icon">•••</span>
+
+        <a
+          class="nav active"
+          href="more.html"
+        >
+          <span class="nav-icon">
+            •••
+          </span>
+
           More
         </a>
 
       </div>
 
     </div>
+
   </div>
 
+
+  <!-- MODAL ROOT -->
   <div id="modalRoot"></div>
 
+
+  <!-- MAIN JAVASCRIPT -->
   <script src="app.js"></script>
 
+
+  <!-- SETTINGS DATA -->
   <script>
 
-    const d = getData();
+    const data = getData();
 
-    document.getElementById("nameView").textContent =
-      d.household.name;
 
-    document.getElementById("codeView").textContent =
-      d.household.inviteCode;
+    document.getElementById(
+      "nameView"
+    ).textContent =
+      data.household.name;
+
+
+    document.getElementById(
+      "codeView"
+    ).textContent =
+      data.household.inviteCode;
 
   </script>
 
 </body>
+
 </html>
+```
