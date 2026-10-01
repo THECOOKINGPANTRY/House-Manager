@@ -1,1 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>People · Home Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
+<body>
+
+  <div class="app-shell">
+    <div class="phone">
+
+      <div class="topbar">
+
+        <div class="topbar-row">
+
+          <a class="brand" href="index.html">
+
+            <div class="brand-mark">
+              <svg viewBox="0 0 64 64">
+                <path fill="#242423" d="M13 25 32 10l19 15h-8L32 16l-11 9z"/>
+                <rect x="19" y="37" width="7" height="20" rx="2.5" fill="#242423"/>
+                <rect x="38" y="37" width="7" height="20" rx="2.5" fill="#242423"/>
+                <rect x="22" y="44" width="20" height="6" rx="2.5" fill="#242423"/>
+              </svg>
+            </div>
+
+            <div>
+              <div class="brand-name">HOME MANAGER</div>
+              <div class="brand-sub" id="houseNameHeader">
+                My Household
+              </div>
+            </div>
+
+          </a>
+
+          <button
+            class="header-action"
+            onclick="location.href='settings.html'"
+          >
+            ⚙
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="scroll">
+
+        <div class="kicker">Household</div>
+
+        <h1>People</h1>
+
+        <p>
+          Everyone who shares this household.
+        </p>
+
+        <div class="section">
+
+          <div class="section-title">
+            Invite someone
+          </div>
+
+          <div style="display:flex;gap:8px">
+
+            <input
+              class="input"
+              readonly
+              value=""
+              id="inviteCode"
+            >
+
+            <button
+              class="button primary"
+              onclick="copyInvite()"
+            >
+              Copy
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="toolbar">
+
+          <div class="kicker">
+            Members
+          </div>
+
+          <button
+            class="button primary small-button"
+            onclick="addMember()"
+          >
+            + Add member
+          </button>
+
+        </div>
+
+        <div class="members" id="members"></div>
+
+      </div>
+
+      <div class="bottom">
+
+        <button class="fab" onclick="openAdd()">+</button>
+
+        <a class="nav" href="index.html">
+          <span class="nav-icon">⌂</span>
+          Home
+        </a>
+
+        <a class="nav" href="tasks.html">
+          <span class="nav-icon">✓</span>
+          Tasks
+        </a>
+
+        <a class="nav" href="shopping.html">
+          <span class="nav-icon">🛒</span>
+          Shop
+        </a>
+
+        <a class="nav active" href="more.html">
+          <span class="nav-icon">•••</span>
+          More
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="modalRoot"></div>
+
+  <script src="app.js"></script>
+
+  <script>
+
+    const d = getData();
+
+    document.getElementById("inviteCode").value =
+      d.household.inviteCode;
+
+    document.getElementById("members").innerHTML =
+      d.members.map(m => `
+
+        <div class="member">
+
+          <div class="avatar">
+            ${safe(m.initials)}
+          </div>
+
+          <div class="member-main">
+
+            <div class="member-name">
+              ${safe(m.name)}
+            </div>
+
+            <div class="member-role">
+              ${safe(m.role)}
+            </div>
+
+          </div>
+
+          ${
+            m.id !== "me"
+              ? `
+                <button
+                  class="icon-button"
+                  onclick="
+                    if(confirm('Remove ${safe(m.name)}?')) {
+                      const d = getData();
+                      d.members = d.members.filter(
+                        x => x.id !== '${m.id}'
+                      );
+                      saveData(d);
+                      location.reload();
+                    }
+                  "
+                >
+                  ×
+                </button>
+              `
+              : ""
+          }
+
+        </div>
+
+      `).join("");
+
+  </script>
+
+</body>
+</html>
