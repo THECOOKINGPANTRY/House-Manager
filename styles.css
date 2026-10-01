@@ -488,6 +488,80 @@ p {
 
 
 /* =========================
+   BUTTON INTERACTIONS
+========================= */
+
+.button {
+  transition:
+    transform .14s ease,
+    background .14s ease,
+    border-color .14s ease,
+    opacity .14s ease,
+    box-shadow .14s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.button:focus-visible {
+  outline: 3px solid rgba(245, 203, 92, .45);
+  outline-offset: 2px;
+}
+
+.primary:hover {
+  background: #f2c24c;
+
+  box-shadow:
+    0 6px 16px rgba(36, 36, 35, .10);
+}
+
+.secondary:hover {
+  background: #c6d3cd;
+}
+
+.outline:hover {
+  background: rgba(36, 36, 35, .05);
+
+  border-color:
+    rgba(36, 36, 35, .18);
+}
+
+.danger:hover {
+  background: rgba(169, 75, 67, .16);
+}
+
+.button:disabled {
+  opacity: .45;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+
+/* =========================
+   LOGOUT BUTTON
+========================= */
+
+.logout-button {
+  background: rgba(169, 75, 67, .10);
+
+  color: var(--danger);
+}
+
+.logout-button:hover {
+  background: rgba(169, 75, 67, .16);
+}
+
+
+/* =========================
    TOOLBARS
 ========================= */
 
@@ -848,17 +922,21 @@ p {
 
 
 /* =========================
-   FAB
+   ADD BUTTON
 ========================= */
 
 .fab {
   position: absolute;
 
   top: -27px;
-  right: 16px;
+  left: 16px;
+  right: auto;
 
   width: 54px;
   height: 54px;
+
+  display: grid;
+  place-items: center;
 
   border: 0;
 
@@ -868,9 +946,32 @@ p {
 
   color: var(--yellow);
 
-  box-shadow: 0 10px 22px rgba(36, 36, 35, .20);
+  box-shadow:
+    0 10px 22px rgba(36, 36, 35, .20);
 
   font-size: 21px;
+
+  z-index: 25;
+
+  transition:
+    transform .14s ease,
+    box-shadow .14s ease;
+}
+
+.fab:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 13px 26px rgba(36, 36, 35, .25);
+}
+
+.fab:active {
+  transform: translateY(0);
+}
+
+.fab:focus-visible {
+  outline: 3px solid rgba(245, 203, 92, .45);
+  outline-offset: 3px;
 }
 
 
@@ -906,7 +1007,8 @@ p {
 
   background: var(--surface);
 
-  box-shadow: 0 25px 70px rgba(36, 36, 35, .24);
+  box-shadow:
+    0 25px 70px rgba(36, 36, 35, .24);
 }
 
 .modal-header {
@@ -1960,55 +2062,4 @@ p {
   .login-card {
     border-radius: 26px;
   }
-}
-
-/* =========================
-   BUTTON INTERACTIONS
-========================= */
-
-.button {
-  transition:
-    transform .14s ease,
-    background .14s ease,
-    border-color .14s ease,
-    opacity .14s ease,
-    box-shadow .14s ease;
-}
-
-.button:hover {
-  transform: translateY(-1px);
-}
-
-.button:active {
-  transform: translateY(0);
-}
-
-.button:focus-visible {
-  outline: 3px solid rgba(245, 203, 92, .45);
-  outline-offset: 2px;
-}
-
-.primary:hover {
-  background: #f2c24c;
-  box-shadow: 0 6px 16px rgba(36, 36, 35, .10);
-}
-
-.secondary:hover {
-  background: #c6d3cd;
-}
-
-.outline:hover {
-  background: rgba(36, 36, 35, .05);
-  border-color: rgba(36, 36, 35, .18);
-}
-
-.danger:hover {
-  background: rgba(169, 75, 67, .16);
-}
-
-.button:disabled {
-  opacity: .45;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
 }
