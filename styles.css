@@ -1025,3 +1025,26 @@ p {
   flex-shrink: 0;
   margin-top: 1px;
 }
+
+.invite-code-card {
+  background: var(--muted);
+  border-radius: 24px;
+  padding: 22px;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.invite-label {
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .12em;
+  color: #697069;
+}
+
+.invite-code {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  color: var(--dark);
+  margin: 12px 0 18px;
+}
