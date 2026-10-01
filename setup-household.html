@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Set Up Household · Home Manager</title>
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
+</head>
+
+<body>
+
+  <div class="login-shell">
+
+    <div class="login-card">
+
+      <div class="login-brand">
+
+        <div class="login-logo">
+
+          <img
+            src="House_Manager_Logo.png"
+            alt="Home Manager logo"
+          >
+
+        </div>
+
+        <div class="login-brand-name">
+          HOME MANAGER
+        </div>
+
+      </div>
+
+
+      <div class="login-heading">
+
+        <div class="login-kicker">
+          Step 1 of 2
+        </div>
+
+        <h1>
+          Set up your household
+        </h1>
+
+        <p>
+          Give your shared space a name. You can change it later.
+        </p>
+
+      </div>
+
+
+      <form
+        class="login-form"
+        onsubmit="handleHouseholdSetup(event)"
+      >
+
+        <div class="field">
+
+          <label
+            class="label"
+            for="householdName"
+          >
+            Household name
+          </label>
+
+          <input
+            id="householdName"
+            class="input"
+            type="text"
+            placeholder="e.g. The Wilson House"
+            required
+          >
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="button primary login-button"
+        >
+          Continue
+        </button>
+
+      </form>
+
+
+      <div class="login-footer">
+        You can invite everyone after this.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script src="app.js"></script>
+
+
+  <script>
+
+    function handleHouseholdSetup(event) {
+
+      event.preventDefault();
+
+      const name =
+        document
+          .getElementById("householdName")
+          .value
+          .trim();
+
+      if (!name) {
+        return;
+      }
+
+
+      const data = getData();
+
+      data.household.name =
+        name;
+
+
+      saveData(data);
+
+
+      location.href =
+        "invite.html";
+    }
+
+  </script>
+
+</body>
+
+</html>
