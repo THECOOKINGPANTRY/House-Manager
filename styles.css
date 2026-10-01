@@ -51,15 +51,23 @@ a {
 }
 
 .app-shell {
-  min-height: 100vh;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+
   display: flex;
   justify-content: center;
+
   padding: 24px;
+
+  overflow: hidden;
 }
 
 .phone {
   width: min(100%, 430px);
-  min-height: calc(100vh - 48px);
+
+  height: calc(100dvh - 48px);
+  min-height: 0;
 
   background: var(--surface);
 
@@ -77,10 +85,14 @@ a {
 }
 
 .topbar {
+  flex: 0 0 auto;
+
   padding: 18px 18px 10px;
+
   background: var(--surface);
-  position: sticky;
-  top: 0;
+
+  position: relative;
+
   z-index: 10;
 }
 
@@ -144,12 +156,18 @@ a {
 }
 
 .scroll {
-  flex: 1;
-  overflow: auto;
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
 
   padding: 8px 18px 96px;
 
   scrollbar-width: none;
+
+  overscroll-behavior: contain;
 }
 
 .scroll::-webkit-scrollbar {
@@ -538,8 +556,11 @@ p {
 }
 
 .bottom {
-  position: sticky;
-  bottom: 0;
+  flex: 0 0 auto;
+
+  position: relative;
+
+  width: 100%;
 
   background: rgba(246, 247, 241, 0.96);
 
@@ -781,12 +802,18 @@ p {
 @media (max-width: 700px) {
 
   .app-shell {
+    width: 100%;
+    height: 100dvh;
+
     padding: 0;
+
+    overflow: hidden;
   }
 
   .phone {
     width: 100%;
-    min-height: 100vh;
+    height: 100dvh;
+    min-height: 0;
 
     border-radius: 0;
     border: 0;
