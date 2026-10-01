@@ -1,1 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tasks · Home Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
+<body>
+
+  <div class="app-shell">
+    <div class="phone">
+
+      <div class="topbar">
+        <div class="topbar-row">
+
+          <a class="brand" href="index.html">
+            <div class="brand-mark">
+              <svg viewBox="0 0 64 64">
+                <path fill="#242423" d="M13 25 32 10l19 15h-8L32 16l-11 9z"/>
+                <rect x="19" y="37" width="7" height="20" rx="2.5" fill="#242423"/>
+                <rect x="38" y="37" width="7" height="20" rx="2.5" fill="#242423"/>
+                <rect x="22" y="44" width="20" height="6" rx="2.5" fill="#242423"/>
+              </svg>
+            </div>
+
+            <div>
+              <div class="brand-name">HOME MANAGER</div>
+              <div class="brand-sub" id="houseNameHeader">My Household</div>
+            </div>
+          </a>
+
+          <button class="header-action" onclick="location.href='settings.html'">
+            ⚙
+          </button>
+
+        </div>
+      </div>
+
+      <div class="scroll">
+
+        <div class="kicker">Household</div>
+
+        <h1>Tasks</h1>
+
+        <p>Everything that needs doing around the home.</p>
+
+        <div class="toolbar">
+          <div class="kicker">Open & completed</div>
+
+          <button
+            class="button primary small-button"
+            onclick="openForm('task')"
+          >
+            + Add task
+          </button>
+        </div>
+
+        <div id="list"></div>
+
+      </div>
+
+      <div class="bottom">
+
+        <button class="fab" onclick="openAdd()">+</button>
+
+        <a class="nav" href="index.html">
+          <span class="nav-icon">⌂</span>
+          Home
+        </a>
+
+        <a class="nav active" href="tasks.html">
+          <span class="nav-icon">✓</span>
+          Tasks
+        </a>
+
+        <a class="nav" href="shopping.html">
+          <span class="nav-icon">🛒</span>
+          Shop
+        </a>
+
+        <a class="nav" href="more.html">
+          <span class="nav-icon">•••</span>
+          More
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="modalRoot"></div>
+
+  <script src="app.js"></script>
+
+  <script>
+    const d = getData();
+
+    document.getElementById("list").innerHTML =
+      d.tasks.length
+        ? d.tasks.map(x => `
+          <div class="list-item">
+
+            <button
+              class="check ${x.done ? "done" : ""}"
+              onclick="toggleTask('${x.id}')"
+            >
+              ${x.done ? "✓" : ""}
+            </button>
+
+            <div class="list-content">
+
+              <div class="list-title ${x.done ? "done-text" : ""}">
+                ${safe(x.title)}
+              </div>
+
+              <div class="list-meta">
+                ${safe(x.assignee)} ·
+                ${x.date ? fmtDate(x.date) : "No due date"}
+              </div>
+
+            </div>
+
+            <div class="right-actions">
+              <button
+                class="icon-button"
+                onclick="deleteTask('${x.id}')"
+              >
+                ×
+              </button>
+            </div>
+
+          </div>
+        `).join("")
+        : emptyState(
+            "✓",
+            "Nothing to do yet",
+            "Add tasks and assign them to anyone in the household.",
+            "Add your first task",
+            "openForm('task')"
+          );
+  </script>
+
+</body>
+</html>
