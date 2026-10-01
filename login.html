@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Sign In · Home Manager</title>
+
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
+</head>
+
+<body>
+
+  <div class="login-shell">
+
+    <div class="login-card">
+
+      <div class="login-brand">
+
+        <div class="login-logo">
+          <img
+            src="House_Manager_Logo.png"
+            alt="Home Manager logo"
+          >
+        </div>
+
+        <div class="login-brand-name">
+          HOME MANAGER
+        </div>
+
+      </div>
+
+      <div class="login-heading">
+
+        <div class="login-kicker">
+          Welcome back
+        </div>
+
+        <h1>
+          Sign in to your household
+        </h1>
+
+        <p>
+          Keep everything your household needs in one place.
+        </p>
+
+      </div>
+
+      <form
+        class="login-form"
+        onsubmit="handleLogin(event)"
+      >
+
+        <div class="field">
+
+          <label
+            class="label"
+            for="email"
+          >
+            Email address
+          </label>
+
+          <input
+            id="email"
+            class="input"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+          >
+
+        </div>
+
+        <div class="field">
+
+          <div class="password-label">
+
+            <label
+              class="label"
+              for="password"
+            >
+              Password
+            </label>
+
+            <button
+              type="button"
+              class="forgot-button"
+              onclick="forgotPassword()"
+            >
+              Forgot password?
+            </button>
+
+          </div>
+
+          <div class="password-wrap">
+
+            <input
+              id="password"
+              class="input"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              onclick="togglePassword()"
+              aria-label="Show password"
+            >
+              Show
+            </button>
+
+          </div>
+
+        </div>
+
+        <label class="remember-row">
+
+          <input
+            id="remember"
+            type="checkbox"
+            checked
+          >
+
+          <span>
+            Keep me signed in
+          </span>
+
+        </label>
+
+        <button
+          type="submit"
+          class="button primary login-button"
+        >
+          Sign in
+        </button>
+
+      </form>
+
+      <div class="login-divider">
+        <span></span>
+        <div>or</div>
+        <span></span>
+      </div>
+
+      <button
+        type="button"
+        class="button outline login-alt"
+        onclick="demoLogin()"
+      >
+        Continue with demo account
+      </button>
+
+      <div class="signup-link">
+
+        <span>
+          Don't have an account?
+        </span>
+
+        <button
+          type="button"
+          onclick="createAccount()"
+        >
+          Create one
+        </button>
+
+      </div>
+
+      <div
+        id="loginMessage"
+        class="login-message"
+      ></div>
+
+      <div class="login-footer">
+        Home Manager
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+
+  <script>
+
+    function togglePassword() {
+
+      const password =
+        document.getElementById("password");
+
+      const button =
+        document.querySelector(".password-toggle");
+
+      const showing =
+        password.type === "text";
+
+      password.type =
+        showing
+          ? "password"
+          : "text";
+
+      button.textContent =
+        showing
+          ? "Show"
+          : "Hide";
+    }
+
+
+    function handleLogin(event) {
+
+      event.preventDefault();
+
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("password")
+          .value;
+
+      const remember =
+        document
+          .getElementById("remember")
+          .checked;
+
+      if (!email || !password) {
+        showLoginMessage(
+          "Enter your email and password."
+        );
+
+        return;
+      }
+
+      localStorage.setItem(
+        "home-manager-logged-in",
+        "true"
+      );
+
+      localStorage.setItem(
+        "home-manager-user-email",
+        email
+      );
+
+      localStorage.setItem(
+        "home-manager-remember",
+        remember
+          ? "true"
+          : "false"
+      );
+
+      location.href =
+        "index.html";
+    }
+
+
+    function demoLogin() {
+
+      localStorage.setItem(
+        "home-manager-logged-in",
+        "true"
+      );
+
+      localStorage.setItem(
+        "home-manager-user-email",
+        "demo@example.com"
+      );
+
+      location.href =
+        "index.html";
+    }
+
+
+    function forgotPassword() {
+
+      showLoginMessage(
+        "Password reset will be available when authentication is connected."
+      );
+    }
+
+
+    function createAccount() {
+
+      showLoginMessage(
+        "Account creation will be added next."
+      );
+    }
+
+
+    function showLoginMessage(text) {
+
+      const element =
+        document.getElementById(
+          "loginMessage"
+        );
+
+      element.textContent =
+        text;
+
+      element.classList.add(
+        "visible"
+      );
+    }
+
+  </script>
+
+</body>
+
+</html>
