@@ -103,24 +103,33 @@
 
         <div class="section">
 
-          <div class="section-title">
-            Prototype data
-          </div>
+  <div class="section-title">
+    Prototype data
+  </div>
 
-          <p>
-            All test data is stored locally in this browser so the prototype works without a backend.
-          </p>
+  <p>
+    All test data is stored locally in this browser so the prototype works without a backend.
+  </p>
 
-          <div style="margin-top:14px">
+  <div style="margin-top:14px;display:grid;gap:10px">
 
-            <button
-              class="button danger full"
-              onclick="resetApp()"
-            >
-              Clear household data
-            </button>
+    <button
+      class="button danger full"
+      onclick="resetApp()"
+    >
+      Clear household data
+    </button>
 
-          </div>
+    <button
+      class="button logout-button full"
+      onclick="confirmLogout()"
+    >
+      Log out
+    </button>
+
+  </div>
+
+</div>
 
         </div>
 
