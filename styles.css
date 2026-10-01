@@ -60,13 +60,20 @@ a {
 .phone {
   width: min(100%, 430px);
   min-height: calc(100vh - 48px);
+
   background: var(--surface);
+
   border: 1px solid var(--border);
   border-radius: 32px;
+
   box-shadow: var(--shadow);
+
   overflow: hidden;
+
   display: flex;
   flex-direction: column;
+
+  position: relative;
 }
 
 .topbar {
@@ -139,7 +146,9 @@ a {
 .scroll {
   flex: 1;
   overflow: auto;
+
   padding: 8px 18px 96px;
+
   scrollbar-width: none;
 }
 
@@ -531,13 +540,19 @@ p {
 .bottom {
   position: sticky;
   bottom: 0;
-  background: rgba(246,247,241,.96);
+
+  background: rgba(246, 247, 241, 0.96);
+
   backdrop-filter: blur(14px);
-  border-top: 1px solid rgba(36,36,35,.07);
+
+  border-top: 1px solid rgba(36, 36, 35, 0.07);
+
   padding: 8px 9px 11px;
+
   display: grid;
-  grid-template-columns: repeat(4,1fr);
-  z-index: 12;
+  grid-template-columns: repeat(4, 1fr);
+
+  z-index: 20;
 }
 
 .nav {
@@ -763,7 +778,7 @@ p {
   gap: 10px;
 }
 
-@media (max-width:700px) {
+@media (max-width: 700px) {
 
   .app-shell {
     padding: 0;
@@ -772,8 +787,10 @@ p {
   .phone {
     width: 100%;
     min-height: 100vh;
+
     border-radius: 0;
     border: 0;
+
     box-shadow: none;
   }
 
