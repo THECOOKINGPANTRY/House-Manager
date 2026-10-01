@@ -1,1 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shopping · Home Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
+<body>
+
+  <div class="app-shell">
+    <div class="phone">
+
+      <div class="topbar">
+        <div class="topbar-row">
+
+          <a class="brand" href="index.html">
+
+            <div class="brand-mark">
+              <svg viewBox="0 0 64 64">
+                <path fill="#242423" d="M13 25 32 10l19 15h-8L32 16l-11 9z"/>
+                <rect x="19" y="37" width="7" height="20" rx="2.5" fill="#242423"/>
+                <rect x="38" y="37" width="7" height="20" rx="2.5" fill="#242423"/>
+                <rect x="22" y="44" width="20" height="6" rx="2.5" fill="#242423"/>
+              </svg>
+            </div>
+
+            <div>
+              <div class="brand-name">HOME MANAGER</div>
+              <div class="brand-sub" id="houseNameHeader">My Household</div>
+            </div>
+
+          </a>
+
+          <button
+            class="header-action"
+            onclick="location.href='settings.html'"
+          >
+            ⚙
+          </button>
+
+        </div>
+      </div>
+
+      <div class="scroll">
+
+        <div class="kicker">Household</div>
+
+        <h1>Shopping</h1>
+
+        <p>A shared list of what the home needs.</p>
+
+        <div class="toolbar">
+
+          <div class="kicker">Items</div>
+
+          <button
+            class="button primary small-button"
+            onclick="openForm('shopping')"
+          >
+            + Add item
+          </button>
+
+        </div>
+
+        <div id="list"></div>
+
+      </div>
+
+      <div class="bottom">
+
+        <button class="fab" onclick="openAdd()">+</button>
+
+        <a class="nav" href="index.html">
+          <span class="nav-icon">⌂</span>
+          Home
+        </a>
+
+        <a class="nav" href="tasks.html">
+          <span class="nav-icon">✓</span>
+          Tasks
+        </a>
+
+        <a class="nav active" href="shopping.html">
+          <span class="nav-icon">🛒</span>
+          Shop
+        </a>
+
+        <a class="nav" href="more.html">
+          <span class="nav-icon">•••</span>
+          More
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="modalRoot"></div>
+
+  <script src="app.js"></script>
+
+  <script>
+    const d = getData();
+
+    document.getElementById("list").innerHTML =
+      d.shopping.length
+        ? d.shopping.map(x => `
+          <div class="list-item">
+
+            <button
+              class="check ${x.bought ? "done" : ""}"
+              onclick="toggleShop('${x.id}')"
+            >
+              ${x.bought ? "✓" : ""}
+            </button>
+
+            <div class="list-content">
+
+              <div class="list-title ${x.bought ? "done-text" : ""}">
+                ${safe(x.title)}
+              </div>
+
+              <div class="list-meta">
+                ${safe(x.category)} · Qty ${safe(x.qty)}
+              </div>
+
+            </div>
+
+            <div class="right-actions">
+
+              <button
+                class="icon-button"
+                onclick="deleteShop('${x.id}')"
+              >
+                ×
+              </button>
+
+            </div>
+
+          </div>
+        `).join("")
+        : emptyState(
+            "🛒",
+            "Your list is empty",
+            "Everyone in the household can add what is needed.",
+            "Add your first item",
+            "openForm('shopping')"
+          );
+  </script>
+
+</body>
+</html>
